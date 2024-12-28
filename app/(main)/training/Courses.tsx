@@ -21,6 +21,7 @@ import java from "@/public/assets/images/training/java.jpg";
 import javascript from "@/public/assets/images/training/javascript.webp";
 import dart from "@/public/assets/images/training/dart.jpg";
 import solidity from "@/public/assets/images/training/solidity.png";
+import Link from "next/link";
 
 const initialCourses = [
   {
@@ -202,15 +203,17 @@ const Courses = () => {
       >
         {courses.map(
           ({ image, name, price, rating, review_count, category }) => (
-            <Course
-              category={category}
-              key={name}
-              image={image}
-              price={price}
-              name={name}
-              rating={rating}
-              review_count={review_count}
-            />
+            <Link key={name} href={`/training/detail`} className=" w-max">
+              <Course
+                category={category}
+                key={name}
+                image={image}
+                price={price}
+                name={name}
+                rating={rating}
+                review_count={review_count}
+              />
+            </Link>
           )
         )}
       </ul>

@@ -26,24 +26,24 @@ const NotFound = () => {
               </Button>
             </div>
           </div>
-          <div>
+          {/* <div>
             <Image
               alt="not-found"
               width={500}
               height={500}
               src="https://i.ibb.co/G9DC8S0/404-2.png"
             />
-          </div>
+          </div> */}
         </div>
       </div>
-      <div>
+      {/* <div>
         <Image
           alt="not-found"
           width={500}
           height={500}
           src="https://i.ibb.co/ck1SGFJ/Group.png"
         />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { IoVideocamOutline } from "react-icons/io5";
 
 import jidem_transparent from "@/public/assets/images/events/jidem_transparent.png";
-import Dot from "../Dot";
+import Dot from "../../../components/Generics/Dot";
 
 interface Props {
   eventSchedule: {

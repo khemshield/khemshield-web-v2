@@ -23,7 +23,7 @@ const Course = ({
   category,
 }: Props) => {
   return (
-    <article className=" shadow-khemshadow lg:max-w-[400px]">
+    <article className=" shadow-khemshadow lg:w-[400px] ">
       <Image
         src={image}
         alt="Mobile App"
@@ -31,13 +31,15 @@ const Course = ({
       />
       <div className=" py-3 px-6">
         <div className="flex items-center justify-between">
-          <div className="py-1 px-[6px] bg-primary-light">
+          <div className="py-1 px-[6px] bg-primary-light ">
             <Text color="primary">{category}</Text>
           </div>
           <Heading variant="h4">{formatNumber(price)}</Heading>
         </div>
         <BaseSpacing />
-        <Heading variant="h4">{name}</Heading>
+        <Heading variant="h4" styles="line-clamp-2">
+          {name}
+        </Heading>
         <BaseSpacing />
         <div className="flex items-center justify-between gap-1">
           <div className="flex items-center">
@@ -46,7 +48,7 @@ const Course = ({
           </div>
 
           <div className=" flex items-center gap-1">
-            <User size={20} className=" text-blue-400" />{" "}
+            <User size={20} className=" text-blue-400" />
             <Text>{formatNumber(review_count, { decimal: true })}</Text>
             <Text color="gray"> students</Text>
           </div>

@@ -11,7 +11,7 @@ import event_1 from "@/public/assets/images/events/event_1.png";
 import Button from "@/app/components/Buttons/Button";
 import { Clock } from "iconsax-react";
 import CountdownTimer from "./CountdownTimer";
-import Dot from "./Dot";
+import Dot from "../../components/Generics/Dot";
 import StackedImages from "./StackedImages";
 import { speakersImagesData } from "@/app/data/events";
 import { Metadata } from "next";
