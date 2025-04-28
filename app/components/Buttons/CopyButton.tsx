@@ -14,7 +14,7 @@ const CopyButton = () => {
   const copyText = async () => {
     try {
       await navigator.clipboard.writeText(fullUrl);
-      toast.message("Link copied", { position: "top-center" });
+      toast.message("Link copied to clipboard", { position: "top-center" });
     } catch (err) {}
   };
 
