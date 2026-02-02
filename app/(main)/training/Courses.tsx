@@ -47,7 +47,7 @@ const initialCourses = [
   },
   {
     image: cybersecurity,
-    name: "Cybersecurity",
+    name: "Security Analyst",
     price: 350000,
     rating: 4.5,
     review_count: 34,
