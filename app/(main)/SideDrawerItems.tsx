@@ -1,11 +1,11 @@
 import SideDrawer from "../components/Navigation/SideDrawer";
 
 const items = [
-  {
-    text: "Project",
-    href: "/project",
-    icon: undefined,
-  },
+  // {
+  //   text: "Project",
+  //   href: "/project",
+  //   icon: undefined,
+  // },
   {
     text: "About",
     href: "/about",
@@ -16,13 +16,13 @@ const items = [
     href: "/faq",
     icon: undefined,
   },
+  // {
+  //   text: "Blog",
+  //   href: "/blog",
+  //   icon: undefined,
+  // },
   {
-    text: "Blog",
-    href: "/blog",
-    icon: undefined,
-  },
-  {
-    text: "Event",
+    text: "Events",
     href: "/event",
     icon: undefined,
   },

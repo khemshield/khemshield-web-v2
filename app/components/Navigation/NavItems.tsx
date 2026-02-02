@@ -7,9 +7,10 @@ const navsItems = [
     href: "/",
   },
   {
-    text: "Events",
-    href: "/event",
+    text: "Training",
+    href: "/training",
   },
+
   // {
   //   text: "Project",
   //   href: "/project",
@@ -32,8 +33,8 @@ const navsItems = [
         href: "/about",
       },
       {
-        text: "Training Program",
-        href: "/training",
+        text: "Events",
+        href: "/event",
       },
       // {
       //   text: "Events",

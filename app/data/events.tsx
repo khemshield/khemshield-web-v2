@@ -5,13 +5,14 @@ import instagram from "@/public/assets/images/instagram.png";
 import { SocialType } from "@/app/components/Footer/Socials";
 import { StaticImageData } from "next/image";
 
-import abdulkareem from "@/public/assets/images/events/abdulkareem.jpeg";
-import ahmedoo from "@/public/assets/images/events/ahmedoo.jpg";
-import jonathan from "@/public/assets/images/events/jonathan.jpeg";
-import felix from "@/public/assets/images/events/felix.jpg";
-import saud from "@/public/assets/images/events/saud.jpeg";
+import ik from "@/public/assets/images/events/ik_4.png";
+import ahmedoo from "@/public/assets/images/events/ahmedoo.png";
+import abdulkareem from "@/public/assets/images/events/abdulkareem.png";
+import jonathan from "@/public/assets/images/events/jonathan.png";
+import felix from "@/public/assets/images/events/felix.png";
+import saud from "@/public/assets/images/events/saud.png";
 import elon from "@/public/assets/images/events/elon.jpg";
-import hafsat from "@/public/assets/images/events/hafsat.jpg";
+import hafsat from "@/public/assets/images/events/hafsat.png";
 
 export const jidemTalks = [
   {
@@ -31,13 +32,13 @@ export const eventScheduleData = [
     day: "First Day",
     date: "24th September 2024",
     facilitator: {
-      image: abdulkareem,
-      name: "Abdul Kareem Adamu",
+      image: ik,
+      name: "Ikechukwu Chukwu",
     },
     curriculum: {
       topic: "Web Development",
       subject: "Introduction to HTML, CSS, and JavaScript",
-      content: `In the "Introduction to HTML, CSS, and JavaScript" session, participants will explore the core technologies for building websites. They will start with HTML to structure web content using elements like headings, paragraphs, lists, and images. Next, they'll learn CSS to style and format the website, focusing on colors, fonts, layout, and responsiveness. Finally, JavaScript will be introduced to add interactivity, enabling dynamic elements such as buttons, form validation, and animations. By the end of the session, attendees will understand how these three technologies work together to create functional, interactive, and visually appealing websites.`,
+      content: `In the "Understanding HTML, Introduction to CSS, and Basics of JavaScript" session, participants will explore the foundational technologies for web development. They will begin with HTML, learning how to structure web content using tags for headings, paragraphs, and images. Next, they'll delve into CSS, focusing on how to style the content, manage layout, and ensure responsiveness. The basics of JavaScript will be introduced, covering how it adds dynamic functionality to web pages. The session will also touch on the interconnection between these technologies, highlight current trends, and discuss future job opportunities. The day concludes with a summary and Q&A session.`,
     },
     time: {
       from: "04PM",
@@ -58,9 +59,9 @@ export const eventScheduleData = [
     },
     curriculum: {
       topic: "Web Development",
-      subject: "Building a basic website using HTML and CSS",
-      content:
-        'In the "Building a Basic Website using HTML and CSS" session, participants will learn the foundational skills for web development. The course will cover structuring a webpage with HTML by utilizing elements such as headings, paragraphs, images, and links. Participants will also explore CSS to style and enhance the visual appeal of their webpage, focusing on layout, typography, colors, and responsive design principles. By the end of the session, attendees will have created a fully functional, visually appealing website using these fundamental technologies.',
+      subject:
+        "Building a Basic Website: From Figma to Live Using HTML, CSS, and JavaScript",
+      content: `In the "Building a Basic Website Using HTML, CSS, and JavaScript" session, participants will take their Figma designs and bring them to life by building a simple, single-page website. They'll begin by structuring the webpage with HTML, using headings, paragraphs, images, and links. Next, they'll style the page with CSS, focusing on layout, colors, fonts, and responsive design based on the Figma mockups. Finally, they'll enhance the site with JavaScript, adding interactivity like handling user inputs and creating dynamic content. By the end of the session, participants will have transformed their design concepts into fully functional, visually appealing websites.`,
     },
     time: {
       from: "04PM",
@@ -126,8 +127,8 @@ export const eventScheduleData = [
     day: "Fifth Day",
     date: "3rd October 2024",
     facilitator: {
-      image: saud,
-      name: "Saud Adam",
+      image: felix,
+      name: "Felix Fomengia",
     },
     curriculum: {
       topic: "Cybersecurity",
@@ -150,8 +151,8 @@ export const eventScheduleData = [
     day: "Sixth Day",
     date: "5th October 2024",
     facilitator: {
-      image: felix,
-      name: "Felix Fomengia",
+      image: saud,
+      name: "Saud Adam",
     },
     curriculum: {
       topic: "Cybersecurity",

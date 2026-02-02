@@ -20,7 +20,7 @@ const ScheduleButton = ({ day, date, isActive, onClick }: Readonly<Props>) => {
         className={`${isActive ? "text-white" : "text-primary-normal"}`}
       />
       <div className={`${isActive && "text-white"} text-left`}>
-        <h4 className=" text-2xl">{day}</h4>
+        <h4 className="text-xl xl:text-2xl">{day}</h4>
         <p className=" text-xs">{date}</p>
       </div>
     </button>

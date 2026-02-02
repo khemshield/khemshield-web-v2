@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Jost } from "next/font/google";
 import ButtonTop from "../components/Buttons/ButtonTop";
 import Footer from "../components/Footer/Footer";
 import TopElement from "../components/Generics/TopElement";
@@ -8,8 +7,7 @@ import TopNav from "../components/Navigation/TopNav";
 import ContentSpacing from "../components/Spacing/ContentSpacing";
 import SectionSpacing from "../components/Spacing/SectionSpacing";
 import SideDrawerItems from "./SideDrawerItems";
-
-const jost = Jost({ subsets: ["latin"] });
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Khemshield | Home",
@@ -22,19 +20,20 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={jost.className}>
-        <TopElement />
-        <ButtonTop />
-        <SideDrawerItems />
-        <TopNav />
-        <ContentSpacing />
-        {children}
-        <SectionSpacing>
-          <Footer />
-        </SectionSpacing>
-        <BottomNav />
-      </body>
-    </html>
+    // <html lang="en">
+    <main>
+      <Toaster richColors />
+      <TopElement />
+      <ButtonTop />
+      <SideDrawerItems />
+      <TopNav />
+      <ContentSpacing />
+      {children}
+      <SectionSpacing>
+        <Footer />
+      </SectionSpacing>
+      <BottomNav />
+    </main>
+    // </html>
   );
 }

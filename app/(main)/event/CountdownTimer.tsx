@@ -3,7 +3,9 @@
 import Heading from "@/app/components/Generics/Heading";
 import Text from "@/app/components/Generics/Text";
 import { formatNumber } from "@/app/lib/formatNumber";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import EventOngoing from "./EventOngoing";
+import EventCompleted from "./EventCompleted";
 
 // Define the types for the props
 interface CountdownTimerProps {
@@ -19,7 +21,10 @@ interface TimeLeft {
 }
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
-  const calculateTimeLeft = (): TimeLeft => {
+  const ongoing = false;
+
+  const calculateTimeLeft = useCallback((): TimeLeft => {
+    // "2024-09-24T16:00:00"
     const difference = +new Date(targetDate) - +new Date();
     let timeLeft = {
       days: 0,
@@ -38,18 +43,47 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
     }
 
     return timeLeft;
-  };
+  }, [targetDate]);
 
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
+  // const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  const hasMounted = useRef(false);
+
+  useEffect(() => {
+    hasMounted.current = true; // Set the mounted flag to true once the component is mounted
+    setTimeLeft(calculateTimeLeft()); // Initialize time left once component is mounted
+  }, [calculateTimeLeft]);
+
+  const timeElapsed =
+    timeLeft.days <= 0 &&
+    timeLeft.hours <= 0 &&
+    timeLeft.minutes <= 0 &&
+    timeLeft.seconds <= 0;
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
+      if (hasMounted.current) {
+        // Only update time left if the component is still mounted
+        setTimeLeft(calculateTimeLeft());
+      }
     }, 1000);
 
+    if (timeElapsed) {
+      clearTimeout(timer);
+    }
     // Clear timeout if the component is unmounted
     return () => clearTimeout(timer);
-  }, [timeLeft]);
+  }, [timeLeft, timeElapsed, calculateTimeLeft]);
+
+  if (!ongoing) return <EventCompleted />;
+
+  if (timeElapsed && !ongoing) return <EventOngoing />;
 
   return (
     <div className="flex gap-4">

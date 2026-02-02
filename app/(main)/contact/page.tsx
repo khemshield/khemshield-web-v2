@@ -27,7 +27,7 @@ const ContactPage = () => {
 
         <div className="min-w-[230px] max-w-[230px] py-2 text-center border border-primary-normal rounded-lg">
           <Text>Call us</Text>
-          <Text variant="semibold">+234 810 231 8131</Text>
+          <Text variant="semibold">+234 810 261 8131</Text>
         </div>
       </section>
       <ContentSpacing />

@@ -1,17 +1,23 @@
-import React from "react";
-import Text from "../Generics/Text";
 import Logo from "../Generics/Logo";
+import Text from "../Generics/Text";
 import BaseSpacing from "../Spacing/BaseSpacing";
 import Socials, { SocialType } from "./Socials";
 
+import instagram from "@/public/assets/images/instagram.png";
 import linkedin from "@/public/assets/images/linkedin.png";
-import facebook from "@/public/assets/images/facebook.png";
-import twitter from "@/public/assets/images/twitter.png";
 
-const socials: SocialType[] = [
-  { src: linkedin, alt: "linkedin", href: "" },
-  { src: facebook, alt: "facebook", href: "" },
-  { src: twitter, alt: "twitter", href: "" },
+export const defaultSocials: SocialType[] = [
+  {
+    src: linkedin,
+    alt: "linkedin",
+    href: "https://www.linkedin.com/company/khemshield/",
+  },
+  {
+    src: instagram,
+    alt: "instagram",
+    href: "https://www.instagram.com/etz_khemshield?igsh=eWZrNW02b3U5azFz",
+  },
+  // { src: twitter, alt: "twitter", href: "" },
 ];
 
 const FooterAbout = () => {
@@ -30,7 +36,7 @@ const FooterAbout = () => {
         professionals with the skills they need.
       </Text>
       <BaseSpacing />
-      <Socials socials={socials} />
+      <Socials socials={defaultSocials} />
     </section>
   );
 };

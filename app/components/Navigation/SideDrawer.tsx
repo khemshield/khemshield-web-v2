@@ -1,10 +1,12 @@
 "use client";
 
 import useSideDrawerStore from "@/app/store/side-drawer";
-import { Add, CloseSquare } from "iconsax-react";
+import { Add } from "iconsax-react";
 import { ReactNode } from "react";
-import NavLink from "./NavLink";
 import RequestQuoteButton from "../Buttons/RequestQuoteButton";
+import NavLink from "./NavLink";
+import Socials from "../Footer/Socials";
+import { defaultSocials } from "../Footer/FooterAbout";
 
 interface Props {
   items: { text: string; href: string; icon: ReactNode }[];
@@ -27,7 +29,7 @@ const SideDrawer = ({ items }: Readonly<Props>) => {
       >
         <section className="p-8">
           <header className="flex justify-end">
-            <Add size={32} onClick={handleClose} className=" rotate-45" />
+            <Add size={32} onClick={handleClose} className="rotate-45" />
           </header>
           <ul>
             {items.map(({ href, text }) => (
@@ -43,6 +45,9 @@ const SideDrawer = ({ items }: Readonly<Props>) => {
             </li>
           </ul>
         </section>
+        <div className="flex items-center justify-center">
+          <Socials socials={defaultSocials} />
+        </div>
       </nav>
     </div>
   );

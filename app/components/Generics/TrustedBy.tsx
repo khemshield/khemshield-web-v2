@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { PropsWithChildren } from "react";
 import ContentSpacing from "../Spacing/ContentSpacing";
 import HeaderContent from "./HeaderContent";
 
@@ -11,7 +10,6 @@ import partner_5 from "@/public/assets/images/partners/partner_5.png";
 import partner_6 from "@/public/assets/images/partners/partner_6.png";
 import partner_7 from "@/public/assets/images/partners/partner_7.png";
 import partner_8 from "@/public/assets/images/partners/partner_8.png";
-import partner_9 from "@/public/assets/images/partners/partner_9.png";
 
 const partners = [
   partner_1,
@@ -34,23 +32,22 @@ const TrustedBy = () => {
         difference. Here are just a few of the companies that trust us to
         protect their infrastructure and develop their talent.
       </HeaderContent>
-
       <ContentSpacing />
       <div
         className="whitespace-nowrap flex gap-8 py-4 overflow-hidden relative
-animation-play-state-paused-group
+        animation-play-state-paused-group
 
-       before:content-[''] before:top-0 before:bottom-0 before:left-0 
-       before:w-20 before:z-10 before:absolute
-      before:bg-gradient-to-left-transparent-white
+        before:content-[''] before:top-0 before:bottom-0 before:left-0 
+        before:w-20 before:z-10 before:absolute
+        before:bg-gradient-to-left-transparent-white
       
-      after:content-[''] after:top-0 after:bottom-0 after:right-0 
-       after:w-20 after:z-10 after:absolute
-      after:bg-gradient-to-right-transparent-white"
+        after:content-[''] after:top-0 after:bottom-0 after:right-0 
+        after:w-20 after:z-10 after:absolute
+        after:bg-gradient-to-right-transparent-white"
       >
         <ul
           className="flex items-center gap-8 justify-between 
-       flex-nowrap animate-slide-infinte animation-play-state-paused"
+        flex-nowrap animate-slide-infinte animation-play-state-paused"
         >
           {partners.map((partner, index) => (
             <li key={index}>
@@ -65,7 +62,7 @@ animation-play-state-paused-group
 
         <ul
           className="flex items-center gap-8 justify-between
-       flex-nowrap animate-slide-infinte animation-play-state-paused"
+        flex-nowrap animate-slide-infinte animation-play-state-paused"
         >
           {partners.map((partner, index) => (
             <li key={index}>
@@ -79,7 +76,7 @@ animation-play-state-paused-group
         </ul>
         <ul
           className="items-center gap-8 justify-between hidden lg:flex
-       flex-nowrap animate-slide-infinte animation-play-state-paused"
+        flex-nowrap animate-slide-infinte animation-play-state-paused"
         >
           {partners.map((partner, index) => (
             <li key={index}>

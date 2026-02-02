@@ -1,0 +1,34 @@
+.growAndFadeCircle1,
+.growAndFadeCircle2,
+.growAndFadeCircle3 {
+    animation: growAndFade 3s infinite ease-out;
+    border-radius: 50%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.growAndFadeCircle1 {
+    animation-delay: 1s;    
+}
+
+.growAndFadeCircle2 {
+    animation-delay: 2s; 
+}
+
+.growAndFadeCircle3 {
+    animation-delay: 3s;
+}  
+  
+@keyframes growAndFade {
+    0% {
+        opacity: .25;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}

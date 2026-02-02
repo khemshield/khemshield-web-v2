@@ -27,7 +27,7 @@ const HomeBanner = () => {
         <div className="flex flex-col xs:flex-row items-center gap-4">
           <Button
             elementType="link"
-            href="/consultation"
+            href="/request"
             variant="primary"
             styles="text-xs md:text-sm lg:text-base py-4 lg:py-2"
           >

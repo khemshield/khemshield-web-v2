@@ -5,6 +5,7 @@ type CommonProps = {
   variant: ButtonVariantType;
   full?: boolean;
   styles?: string;
+  shouldDisable?: boolean;
 };
 
 // Attributes specific to button
@@ -28,15 +29,25 @@ const Button = ({
   elementType,
   full,
   styles,
+  shouldDisable,
   ...rest
 }: Readonly<Props>) => {
-  const baseStyle = `${styles} ${
+  const baseStyle = `${styles}  ${
     full && "w-full"
-  } py-2 px-3 rounded-md font-semibold`;
+  } py-2 px-3 rounded-md font-semibold
+  disabled:bg-gray-400 disabled:text-secondary-normal`;
 
   const btnStyle: { [key in ButtonVariantType]: string } = {
-    primary: "bg-primary-normal text-white",
-    border: "border-primary-normal border text-secondary-normal",
+    primary: `${
+      shouldDisable
+        ? "bg-gray-400 text-secondary-normal/60 cursor-not-allowed"
+        : "bg-primary-normal text-white"
+    } `,
+    border: `${
+      shouldDisable
+        ? "bg-gray-400 text-secondary-normal cursor-not-allowed"
+        : "border-primary-normal border text-secondary-normal/60"
+    }`,
   };
 
   switch (elementType) {

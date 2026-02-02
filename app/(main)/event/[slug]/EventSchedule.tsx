@@ -38,14 +38,22 @@ const EventSchedule = () => {
   };
 
   const handleNext = () => {
+    console.log("CURRENT SELECTED TAB IS: ", selectedTab);
     if (selectedTab < eventSchedules.length - 1) {
-      setSelectedTab((prev) => prev + 1);
+      setSelectedTab((prev) => {
+        console.log("PREV SELECTED TAB IS: ", prev);
+
+        return prev + 1;
+      });
 
       const buttonListElement = buttonListRef.current;
       if (buttonListElement) {
         const buttonWidth =
           buttonListElement.scrollWidth / eventSchedules.length;
-        buttonListElement.scrollBy({ left: buttonWidth, behavior: "smooth" });
+        buttonListElement.scrollBy({
+          left: buttonWidth,
+          behavior: "smooth",
+        });
       }
     }
   };
@@ -64,7 +72,7 @@ const EventSchedule = () => {
   };
 
   return (
-    <div className="lg:px-10">
+    <div className="xl:px-10">
       <HeadingSub subheading="Explore">Event Schedule</HeadingSub>
       <ContentSpacing />
       <NextPrevArrows
@@ -124,6 +132,20 @@ const EventSchedule = () => {
                     }}
                     jidemTalk={jidemTalk}
                   />
+                  <div>
+                    <NextPrevArrows
+                      styles=" lg:hidden"
+                      isLast={selectedTab >= eventScheduleData.length - 1}
+                      isFirst={selectedTab <= 0}
+                      handlePrev={handlePrev}
+                      handleNext={handleNext}
+                    />
+                    <div className="flex items-center justify-center my-8">
+                      <ButtonRegEvent ongoing={false}>
+                        Claim Your Seat
+                      </ButtonRegEvent>
+                    </div>
+                  </div>
                 </section>
               );
             }
@@ -137,9 +159,6 @@ const EventSchedule = () => {
         handlePrev={handlePrev}
         handleNext={handleNext}
       /> */}
-      <div className="flex items-center justify-center my-6">
-        <ButtonRegEvent>Claim Your Seat</ButtonRegEvent>
-      </div>
     </div>
   );
 };

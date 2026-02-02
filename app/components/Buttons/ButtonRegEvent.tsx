@@ -10,7 +10,13 @@ import { Add } from "iconsax-react";
 import Text from "../Generics/Text";
 import BaseSpacing from "../Spacing/BaseSpacing";
 
-const ButtonRegEvent = ({ children }: Readonly<PropsWithChildren>) => {
+interface Props {
+  ongoing: boolean;
+}
+const ButtonRegEvent = ({
+  children,
+  ongoing,
+}: Readonly<PropsWithChildren<Props>>) => {
   const [showDialog, setShowDialog] = useState(false);
 
   const handleShowDialog = () => {
@@ -77,11 +83,13 @@ const ButtonRegEvent = ({ children }: Readonly<PropsWithChildren>) => {
         </section>
       </dialog>
 
-      {/* Button to Show Dialog */}
       <Button
-        onClick={handleShowDialog}
+        // onClick={handleShowDialog}
+        shouldDisable={!ongoing}
         variant="primary"
         styles="text-xs md:text-sm lg:text-base py-4 lg:py-2"
+        elementType="link"
+        href={`/event/${eventSlug}/register`}
       >
         {children}
       </Button>
@@ -109,6 +117,7 @@ const generateGoogleCalendarLink = (eventDetails: {
 
 import React from "react";
 import ContentSpacing from "../Spacing/ContentSpacing";
+import { eventSlug } from "@/app/(main)/event/eventSlug";
 
 const EventRegistration: React.FC = () => {
   const eventDetails = {

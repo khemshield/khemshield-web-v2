@@ -14,9 +14,7 @@ const Breadcrumb = ({ crumbs, heading }: Props) => {
       <Wrapper styles="flex items-center h-28 bg-support justify-between">
         <ul className="flex items-center gap-3 min-w-[50%]">
           <li>
-            <NavLink href="/" bold>
-              Home
-            </NavLink>
+            <NavLink href="/">Home</NavLink>
           </li>
           {crumbs.map(({ text, href }, index) => {
             const isLast = index === crumbs.length - 1;
@@ -26,7 +24,7 @@ const Breadcrumb = ({ crumbs, heading }: Props) => {
                   className=" border-[7px] border-secondary-normal 
               border-t-transparent border-b-transparent border-r-transparent"
                 ></div>
-                <NavLink href={href} bold={!isLast} disabled={isLast}>
+                <NavLink href={href} bold={isLast} disabled={isLast}>
                   {text}
                 </NavLink>
               </li>
@@ -35,7 +33,9 @@ const Breadcrumb = ({ crumbs, heading }: Props) => {
         </ul>
         <div className="min-w-[50%]">
           <Heading variant="h4">
-            {heading ? heading : crumbs[crumbs.length - 1].text}
+            {heading || heading?.length == 0
+              ? heading
+              : crumbs[crumbs.length - 1].text}
           </Heading>
         </div>
       </Wrapper>

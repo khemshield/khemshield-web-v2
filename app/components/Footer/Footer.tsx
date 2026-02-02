@@ -4,6 +4,7 @@ import FooterAbout from "./FooterAbout";
 import FooterCompany from "./FooterCompany";
 import FooterServices from "./FooterServices";
 import FooterLegal from "./FooterLegal";
+import EventFooter from "../Medias/EventFooter";
 
 const Footer = () => {
   return (
@@ -14,7 +15,8 @@ const Footer = () => {
       <FooterAbout />
       <FooterCompany />
       <FooterServices />
-      <FooterLegal />
+      {/* <FooterLegal /> */}
+      <EventFooter />
     </Wrapper>
   );
 };
