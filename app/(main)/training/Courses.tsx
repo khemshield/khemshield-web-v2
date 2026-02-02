@@ -1,32 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
+import ContentSpacing from "@/app/components/Spacing/ContentSpacing";
 import Course from "./Course";
 import SearchFilter from "./SearchFilter";
-import ContentSpacing from "@/app/components/Spacing/ContentSpacing";
 
-import mobile_app from "@/public/assets/images/training/mobile_app.png";
-import cloud_computing from "@/public/assets/images/training/cloud_computing.png";
-import fullstack from "@/public/assets/images/training/fullstack.png";
-import frontend from "@/public/assets/images/training/frontend.jpg";
-import ethical_hacking from "@/public/assets/images/training/ethical_hacking.webp";
-import infosec from "@/public/assets/images/training/infosec.jpg";
-import cybersecurity from "@/public/assets/images/training/cybersecurity.jpg";
-import uiux from "@/public/assets/images/training/uiux.jpg";
-import creative_design from "@/public/assets/images/training/creative_design.avif";
 import brand_design from "@/public/assets/images/training/brand_design.jpg";
-import python from "@/public/assets/images/training/python.png";
+import cloud_computing from "@/public/assets/images/training/cloud_computing.png";
+import creative_design from "@/public/assets/images/training/creative_design.avif";
+import cybersecurity from "@/public/assets/images/training/cybersecurity.jpg";
+import dart from "@/public/assets/images/training/dart.jpg";
+import frontend from "@/public/assets/images/training/frontend.jpg";
+import fullstack from "@/public/assets/images/training/fullstack.png";
+import infosec from "@/public/assets/images/training/infosec.jpg";
 import java from "@/public/assets/images/training/java.jpg";
 import javascript from "@/public/assets/images/training/javascript.webp";
-import dart from "@/public/assets/images/training/dart.jpg";
+import mobile_app from "@/public/assets/images/training/mobile_app.png";
+import python from "@/public/assets/images/training/python.png";
 import solidity from "@/public/assets/images/training/solidity.png";
-
+import uiux from "@/public/assets/images/training/uiux.jpg";
 const initialCourses = [
   {
     image: mobile_app,
     name: "Mobile App Development (iOS/Android)",
-    price: 200000,
+    price: 250000,
     rating: 4.5,
     review_count: 6,
     category: "Development",
@@ -42,7 +40,7 @@ const initialCourses = [
   {
     image: frontend,
     name: "Frontend Web Development (Including ReactJs)",
-    price: 150000,
+    price: 200000,
     rating: 4.5,
     review_count: 34,
     category: "Development",
@@ -50,7 +48,7 @@ const initialCourses = [
   {
     image: cybersecurity,
     name: "Cybersecurity",
-    price: 150000,
+    price: 350000,
     rating: 4.5,
     review_count: 34,
     category: "Cybersecurity",
@@ -58,23 +56,23 @@ const initialCourses = [
   {
     image: fullstack,
     name: "Fullstack Web Development (MERN stack, NextJs)",
-    price: 150000,
+    price: 300000,
     rating: 5,
     review_count: 12,
     category: "Development",
   },
-  {
-    image: ethical_hacking,
-    name: "Ethical Hacking / PenTest",
-    price: 250000,
-    rating: 4.5,
-    review_count: 34,
-    category: "Cybersecurity",
-  },
+  // {
+  //   image: ethical_hacking,
+  //   name: "Ethical Hacking / PenTest",
+  //   price: 250000,
+  //   rating: 4.5,
+  //   review_count: 34,
+  //   category: "Cybersecurity",
+  // },
   {
     image: cloud_computing,
     name: "Cloud Computing",
-    price: 120000,
+    price: 180000,
     rating: 4.0,
     review_count: 4,
     category: "Infrastructure",
@@ -127,7 +125,7 @@ const initialCourses = [
   {
     image: dart,
     name: "Dart",
-    price: 120000,
+    price: 150000,
     rating: 4.0,
     review_count: 32,
     category: "Programming",
@@ -211,7 +209,7 @@ const Courses = () => {
               rating={rating}
               review_count={review_count}
             />
-          )
+          ),
         )}
       </ul>
     </div>
