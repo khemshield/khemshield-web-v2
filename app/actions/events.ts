@@ -66,7 +66,7 @@ export const eventRegisterAction = async (
   };
 
   const postDataRes = await fetch(
-    `${process.env.KHEMSHIELD_BASE_URL}/graphql`,
+    `${process.env.KHEMSHIELD_BASE_URL}/api/v1/graphql`,
     {
       method: "POST",
       headers: {

@@ -34,8 +34,8 @@ const ContactForm = () => {
         setHasError(true);
       } else if (state.message.toLowerCase() === "ok") {
         toast.success(
-          `Thank you for registering for the Virtual Training in Web Development and Cybersecurity!`,
-          { position: "top-center", duration: 5000 }
+          `Thank you for reaching out! We've received your message and will get back to you shortly.`,
+          { position: "top-center", duration: 5000 },
         );
         router.replace("/");
       }
@@ -49,44 +49,6 @@ const ContactForm = () => {
       setHasError(false);
     }
   }, [hasError, state]);
-
-  // TODO: Compare above
-  // useEffect(() => {
-  //   try {
-  //     if (state && state.message) {
-  //       if (state.message.toLowerCase() !== "ok") {
-  //         toast.error(state.message, { position: "top-center" });
-  //         // Set the error state to true to trigger the reset
-  //         setHasError(true);
-  //       }
-
-  //       if (state.message.toLowerCase() === "ok") {
-  //         toast.success(
-  //           `Thank you for reaching out! We've received your message and will get back to you shortly.`,
-  //           {
-  //             position: "top-center",
-  //             duration: 5000,
-  //           }
-  //         );
-  //         router.replace("/");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log("EventRegisterForm message", error);
-  //   }
-  // }, [state.message]);
-
-  // useEffect(() => {
-  //   try {
-  //     if (hasError) {
-  //       // Reset the message after showing the error
-  //       state.message = "";
-  //       setHasError(false);
-  //     }
-  //   } catch (error) {
-  //     console.log("EventRegisterForm hasError", error);
-  //   }
-  // }, [hasError, state]);
 
   return (
     <section
