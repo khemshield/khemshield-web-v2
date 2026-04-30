@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" -X POST http://localhost:5000/graphql -H \"Content-Type: application/json\" -d '{\"query\":\"{__typename}\"}' --max-time 3)",
-      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" -X POST http://localhost:5000/api/v1/graphql -H \"Content-Type: application/json\" -d '{\"query\":\"{__typename}\"}' --max-time 3)"
-    ]
-  }
-}
