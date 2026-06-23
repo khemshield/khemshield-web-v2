@@ -1,4 +1,4 @@
-import BannerBackground from "../components/Banners/BannerBackground";
+import type { Metadata } from "next";
 import HomeBanner from "../components/Banners/HomeBanner";
 import CallToActionBanner from "../components/CallToActions/CallToActionBanner";
 import TrustedBy from "../components/Generics/TrustedBy";
@@ -8,14 +8,22 @@ import ContentSpacing from "../components/Spacing/ContentSpacing";
 import Testimonials from "../components/Testimonials/Testimonials";
 import WhyChooseUs from "../components/WhyChooseUs/WhyChooseUs";
 import HomeBlog from "../components/Blog/HomeBlog";
+import TeachingShowcase from "../components/Team/TeachingShowcase";
+
+export const metadata: Metadata = {
+  description:
+    "Khemshield delivers secure IT solutions and practical tech training, from cybersecurity and software engineering to AI, helping businesses and learners thrive.",
+  alternates: { canonical: "/" },
+};
 
 export default function HomePage() {
   return (
     <main>
+      <HomeBanner />
+      <ContentSpacing />
+      <TeachingShowcase />
+      <ContentSpacing />
       <Wrapper>
-        <BannerBackground minHeight="min-h-[990px] lg:min-h-[670px]">
-          <HomeBanner />
-        </BannerBackground>
         <TrustedBy />
       </Wrapper>
       <ContentSpacing />

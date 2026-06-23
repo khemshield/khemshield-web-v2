@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import Breadcrumb from "@/app/components/Generics/Breadcrumb";
 import HeaderContent from "@/app/components/Generics/HeaderContent";
 import Text from "@/app/components/Generics/Text";
 import ContentSpacing from "@/app/components/Spacing/ContentSpacing";
 import ContactForm from "./ContactForm";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with Khemshield. Reach out by email or phone, or send us a message and we will get right back to you.",
+  alternates: { canonical: "/contact" },
+};
 
 const ContactPage = () => {
   return (

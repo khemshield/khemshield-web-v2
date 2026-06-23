@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import Breadcrumb from "@/app/components/Generics/Breadcrumb";
 import HeaderContent from "@/app/components/Generics/HeaderContent";
 import Wrapper from "@/app/components/Generics/Wrapper";
 import ContentSpacing from "@/app/components/Spacing/ContentSpacing";
 import Courses from "./Courses";
+
+export const metadata: Metadata = {
+  title: "Training Programs",
+  description:
+    "Build real skills in cybersecurity and AI with Khemshield's hands-on training programs, from threat defense to building AI-powered and agentic systems.",
+  alternates: { canonical: "/training" },
+};
 
 const TraininPage = () => {
   return (
@@ -11,14 +19,14 @@ const TraininPage = () => {
       <Wrapper>
         <ContentSpacing />
         <HeaderContent
-          heading="Empower Your Future with Industry-Leading IT Skills"
+          heading="Build Real Skills in Security & AI"
           center
         >
-          At khemshield, we believe that the key to staying ahead in the rapidly
-          evolving tech industry is continuous learning. Our training programs
-          are designed to equip students, professionals, and organizations with
-          the practical skills and knowledge needed to excel in cybersecurity,
-          IT development, and beyond.
+          At Khemshield, we believe the key to staying ahead in a fast-moving
+          tech industry is continuous, hands-on learning. Our training programs
+          equip students, professionals, and organizations with the practical
+          skills to excel in cybersecurity and artificial intelligence, from
+          threat defense to building AI-powered and agentic systems.
         </HeaderContent>
         <ContentSpacing />
         <Courses />

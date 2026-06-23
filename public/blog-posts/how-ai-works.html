@@ -3,7 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How AI Actually Works</title>
+    <title>How AI Actually Works | Khemshield</title>
+    <meta
+      name="description"
+      content="A visual, step-by-step walk through what really happens between your prompt and the AI's answer: tokens, vectors, attention, and prediction. No maths degree required."
+    />
+    <meta name="author" content="Khemshield" />
+    <meta name="robots" content="index, follow" />
+    <link
+      rel="canonical"
+      href="https://www.khemshield.com/blog-posts/how-ai-works.html"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Khemshield" />
+    <meta property="og:title" content="How AI Actually Works" />
+    <meta
+      property="og:description"
+      content="A visual, step-by-step walk through what really happens between your prompt and the AI's answer: tokens, vectors, attention, and prediction. No maths degree required."
+    />
+    <meta
+      property="og:url"
+      content="https://www.khemshield.com/blog-posts/how-ai-works.html"
+    />
+    <meta
+      property="og:image"
+      content="https://www.khemshield.com/og?title=How%20AI%20Actually%20Works"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How AI Actually Works" />
+    <meta
+      name="twitter:description"
+      content="A visual, step-by-step walk through what really happens between your prompt and the AI's answer: tokens, vectors, attention, and prediction. No maths degree required."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.khemshield.com/og?title=How%20AI%20Actually%20Works"
+    />
+
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
       rel="stylesheet"
@@ -1549,12 +1591,9 @@
 
       /* ═══════════════════════════════
    LIVE PREDICTION DEMO
-   (uses Groq API — free tier)
-   Get your key at console.groq.com
+   Calls our own /api/ai-demo proxy, which holds the API key server-side.
+   No key is ever exposed in the browser.
 ════════════════════════════════ */
-      const GROQ_API_KEY =
-        "REDACTED_GROQ_KEY";
-
       let isGenerating = false;
       async function runPrediction() {
         if (isGenerating) return;
@@ -1565,41 +1604,17 @@
           return;
         }
 
-        if (GROQ_API_KEY === "YOUR_GROQ_API_KEY_HERE") {
-          document.getElementById("output-stream").innerHTML =
-            '<span style="color:#f59e0b">⚠️ Add your Groq API key to the file first. Open the HTML in a text editor, find <strong>GROQ_API_KEY</strong> near the bottom and replace the placeholder. Get a free key at <strong>console.groq.com</strong></span>';
-          return;
-        }
-
         isGenerating = true;
         const out = document.getElementById("output-stream");
         out.innerHTML = '<span class="cursor"></span>';
         document.getElementById("token-count").textContent = "";
 
         try {
-          const response = await fetch(
-            "https://api.groq.com/openai/v1/chat/completions",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + GROQ_API_KEY,
-              },
-              body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                max_tokens: 180,
-                messages: [
-                  {
-                    role: "system",
-                    content:
-                      "You are a helpful assistant demonstrating AI text generation for a classroom. Give a clear, accurate, concise answer in 2-4 sentences. Do not mention that you are an AI or that this is a demonstration.",
-                  },
-                  { role: "user", content: prompt },
-                ],
-                stream: true,
-              }),
-            },
-          );
+          const response = await fetch("/api/ai-demo", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt }),
+          });
 
           if (!response.ok) {
             const err = await response.json();
@@ -1652,7 +1667,7 @@
           const cur = out.querySelector(".cursor");
           if (cur) cur.remove();
         } catch (e) {
-          out.innerHTML = `<span style="color:#ef4444">Error: ${e.message}. Check your Groq API key or visit console.groq.com</span>`;
+          out.innerHTML = `<span style="color:#ef4444">Error: ${e.message}. Please try again in a moment.</span>`;
         }
         isGenerating = false;
       }

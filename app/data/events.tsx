@@ -110,7 +110,7 @@ export const eventScheduleData = [
       subject:
         "Introduction to cybersecurity fundamentals (threats, vulnerabilities, risk management)",
       content:
-        "This session will cover the basics of cybersecurity, starting with an overview of common cyber threats such as malware, phishing, and ransomware. Participants will also learn about vulnerabilities—weak points in systems or software that attackers can exploit. The session will dive into risk management, focusing on how organizations assess and prioritize risks to protect their digital assets. By the end of this session, attendees will have a strong foundation in identifying threats, understanding vulnerabilities, and implementing risk management strategies to safeguard their systems.",
+        "This session will cover the basics of cybersecurity, starting with an overview of common cyber threats such as malware, phishing, and ransomware. Participants will also learn about vulnerabilities, weak points in systems or software that attackers can exploit. The session will dive into risk management, focusing on how organizations assess and prioritize risks to protect their digital assets. By the end of this session, attendees will have a strong foundation in identifying threats, understanding vulnerabilities, and implementing risk management strategies to safeguard their systems.",
     },
 
     time: {

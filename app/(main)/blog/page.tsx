@@ -6,9 +6,10 @@ import BlogCard from "./BlogCard";
 import { blogPosts } from "./posts";
 
 export const metadata: Metadata = {
-  title: "Blog | Khemshield",
+  title: "Blog",
   description:
     "Learn new skills with clear, hands-on guides and interactive explainers from the Khemshield team.",
+  alternates: { canonical: "/blog" },
 };
 
 const BlogPage = () => {
@@ -24,7 +25,7 @@ const BlogPage = () => {
         </div>
         <p className="mx-auto mt-5 max-w-xl text-[#8C94A3]">
           Clear, practical guides and interactive explainers to help you
-          understand technology and grow your skills — written for curious
+          understand technology and grow your skills, written for curious
           beginners and busy professionals alike.
         </p>
       </header>
@@ -38,7 +39,7 @@ const BlogPage = () => {
 
       {blogPosts.length === 0 && (
         <p className="mt-16 text-center text-[#8C94A3]">
-          No posts yet — check back soon.
+          No posts yet, check back soon.
         </p>
       )}
     </Wrapper>

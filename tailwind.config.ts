@@ -31,11 +31,29 @@ const config: Config = {
         },
 
         secondary: {
-          normal: "#48484A",
+          normal: "#191919",
           light: "#EDEDED",
         },
 
+        ink: "#191919",
+        helper: "#202020",
         support: "#F5F3F3",
+      },
+
+      fontFamily: {
+        sans: ["var(--font-jost)", "system-ui", "sans-serif"],
+        display: [
+          "var(--font-archivo)",
+          "var(--font-jost)",
+          "system-ui",
+          "sans-serif",
+        ],
+        mono: [
+          "var(--font-plex-mono)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace",
+        ],
       },
 
       boxShadow: {

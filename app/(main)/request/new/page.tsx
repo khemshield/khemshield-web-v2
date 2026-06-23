@@ -4,9 +4,17 @@ import GroupInput from "@/app/components/Inputs/GroupInput";
 import Label from "@/app/components/Inputs/Label";
 import SelectInput from "@/app/components/Inputs/SelectInput";
 import TextArea from "@/app/components/Inputs/TextArea";
+import type { Metadata } from "next";
 import BaseSpacing from "@/app/components/Spacing/BaseSpacing";
 import ContentSpacing from "@/app/components/Spacing/ContentSpacing";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Start Your Request",
+  description:
+    "Tell Khemshield about your project and we will get back to you with a personalized quote tailored to your needs.",
+  robots: { index: false, follow: true },
+};
 
 const page = () => {
   return (

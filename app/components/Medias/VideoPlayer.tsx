@@ -26,13 +26,14 @@ const VideoPlayer = () => {
 
   return (
     <section
-      className="group bg-primary-light rounded-md 
-     relative h-[340px]
-    
-    lg:w-1/2 lg:h-[440px]"
+      className="group relative h-[300px] w-full overflow-hidden rounded-2xl
+      bg-primary-light shadow-khemshadow sm:h-[380px] lg:h-[460px]"
     >
-      <div className="bg-primary-dark/20 h-full absolute top-0 right-0 left-0 bottom-0"></div>
-      <div className="absolute inset-0 flex items-center justify-center z-10">
+      <div
+        className={`absolute inset-0 z-[1] transition-opacity duration-300
+        ${isPlaying ? "opacity-0" : "bg-primary-dark/20 opacity-100"}`}
+      ></div>
+      <div className="absolute inset-0 z-10 flex items-center justify-center">
         <PlayPauseButton
           isPlaying={isPlaying}
           togglePlay={() => setIsPlaying(!isPlaying)}
@@ -40,11 +41,13 @@ const VideoPlayer = () => {
       </div>
 
       <video
-        poster="assets/images/training_1.jpg"
+        poster="/assets/images/training_1.jpg"
         ref={videoRef}
-        className="inset-0 w-full h-full object-cover rounded-md"
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 h-full w-full object-cover"
       >
-        <source src="assets/videos/training_1.mp4" type="video/mp4" />
+        <source src="/assets/videos/training_1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </section>

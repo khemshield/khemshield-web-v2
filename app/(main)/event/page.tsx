@@ -18,11 +18,12 @@ import { Metadata } from "next";
 import { eventSlug } from "./eventSlug";
 
 export const metadata: Metadata = {
-  title: "Khemshield | Events",
-  description: `Explore our upcoming webinars and events on cybersecurity and software engineering. 
+  title: "Events",
+  description: `Explore our upcoming webinars and events on cybersecurity and software engineering.
     Learn from experts, network with peers, and stay updated on the latest trends. Register now`,
+  alternates: { canonical: "/event" },
   openGraph: {
-    title: "Khemshield | Events",
+    title: "Khemshield Events",
     description: `Explore our upcoming webinars and events on cybersecurity and software engineering. 
       Learn from experts, network with peers, and stay updated on the latest trends. Register now`,
     images: [

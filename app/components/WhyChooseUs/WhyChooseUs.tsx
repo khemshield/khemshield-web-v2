@@ -1,36 +1,46 @@
-import HeaderContent from "../Generics/HeaderContent";
 import Image from "next/image";
 
 import training_2 from "@/public/assets/images/training_2.jpg";
-import ContentSpacing from "../Spacing/ContentSpacing";
+import Heading from "../Generics/Heading";
 import Reasons from "./Reasons";
-import Wrapper from "../Generics/Wrapper";
 
 const WhyChooseUs = () => {
   return (
-    <Wrapper styles=" bg-support py-24 ">
-      <HeaderContent heading="Why Choose Us" center>
-        Our dedicated team of experts ensures that your organization not only
-        adopts the latest technologies but also successfully integrates and
-        sustains them, making us the preferred choice for those who strive for
-        technological excellence.
-      </HeaderContent>
-      <ContentSpacing />
-      <section
-        className="flex flex-col gap-20  justify-center
-       lg:flex-row"
-      >
-        <Image
-          src={training_2}
-          alt="Students in Workshop"
-          className=" h-[340px] object-cover rounded-md
-          lg:w-[480px] lg:h-[480px]"
-        />
-        <div className=" max-w-[550px]">
-          <Reasons />
+    <section className="bg-support py-20 lg:py-28">
+      <div className="mx-auto max-w-[1180px] px-6 lg:px-12">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* Image */}
+          <div className="relative">
+            <Image
+              src={training_2}
+              alt="Students in a Khemshield workshop"
+              className="h-[340px] w-full rounded-2xl object-cover shadow-khemshadow lg:h-[520px]"
+            />
+            <span
+              className="absolute bottom-5 left-5 rounded-full bg-ink/85 px-4 py-2
+              font-mono text-[0.7rem] uppercase tracking-[0.16em] text-white backdrop-blur-sm"
+            >
+              Hands-on, mentor-led
+            </span>
+          </div>
+
+          {/* Copy + reasons */}
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.24em] text-primary-normal">
+              Why Khemshield
+            </p>
+            <div className="mt-4">
+              <Heading variant="h2">
+                Why teams trust us with security and AI
+              </Heading>
+            </div>
+            <div className="mt-8">
+              <Reasons />
+            </div>
+          </div>
         </div>
-      </section>
-    </Wrapper>
+      </div>
+    </section>
   );
 };
 

@@ -1,16 +1,15 @@
-import { title } from "process";
 import CircledListItem from "./CircledListItem";
 
 const reasons = [
   {
     title: "Proven Expertise",
     description:
-      "With years of experience in secure application development and cybersecurity, we bring a deep understanding of IT challenges and solutions to every project.",
+      "Years of hands-on experience across cybersecurity and AI engineering, we bring a deep understanding of modern threats and intelligent systems to every project.",
   },
   {
-    title: "Comprehensive Services",
+    title: "Security & AI, End to End",
     description:
-      "From web and mobile app development to infrastructure protection and cybersecurity training, we offer end-to-end solutions tailored to your needs.",
+      "From threat detection and secure cloud foundations to AI-powered and agentic AI software, we deliver complete solutions tailored to your needs.",
   },
   {
     title: "Client-Centric Approach",
@@ -20,9 +19,10 @@ const reasons = [
   {
     title: "Commitment to Excellence",
     description:
-      "Quality is at the core of everything we do. We are dedicated to delivering secure, reliable, and innovative IT solutions that protect your business and help you grow.",
+      "Quality is at the core of everything we do, secure, reliable, and innovative solutions that protect your business and help you grow.",
   },
 ];
+
 const Reasons = () => {
   return (
     <ul>

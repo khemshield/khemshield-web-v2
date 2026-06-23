@@ -8,16 +8,18 @@ import EventFooter from "../Medias/EventFooter";
 
 const Footer = () => {
   return (
-    <Wrapper
-      styles="hidden justify-between border-t py-[80px] 
+    <footer className="bg-ink text-white">
+      <Wrapper
+        styles="hidden justify-between border-t border-white/10 py-[80px]
     lg:flex"
-    >
-      <FooterAbout />
-      <FooterCompany />
-      <FooterServices />
-      {/* <FooterLegal /> */}
-      <EventFooter />
-    </Wrapper>
+      >
+        <FooterAbout />
+        <FooterCompany />
+        <FooterServices />
+        {/* <FooterLegal /> */}
+        <EventFooter />
+      </Wrapper>
+    </footer>
   );
 };
 

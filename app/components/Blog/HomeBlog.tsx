@@ -14,7 +14,7 @@ const HomeBlog = () => {
     <Wrapper>
       <HeaderContent heading="Learn something new from our blog" center>
         Practical guides and interactive explainers to help you build real
-        skills — from how AI works to the tools shaping the future.
+        skills, from how AI works to the tools shaping the future.
       </HeaderContent>
       <ContentSpacing />
       <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">

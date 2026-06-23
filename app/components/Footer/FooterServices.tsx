@@ -1,4 +1,3 @@
-import Heading from "../Generics/Heading";
 import BaseSpacing from "../Spacing/BaseSpacing";
 
 const items = [
@@ -6,27 +5,27 @@ const items = [
     text: "Cyber Security",
   },
   {
+    text: "AI Engineering",
+  },
+  {
+    text: "Agentic AI",
+  },
+  {
     text: "Web Development",
   },
   {
     text: "Mobile Development",
-  },
-  {
-    text: "UX Design",
-  },
-  {
-    text: "Graphic Design",
   },
 ];
 
 const FooterServices = () => {
   return (
     <div>
-      <Heading variant="h4">Services</Heading>
+      <h4 className="font-display text-lg font-semibold text-white">Services</h4>
       <BaseSpacing />
       <ul>
         {items.map(({ text }) => (
-          <li key={text} className="my-2">
+          <li key={text} className="my-2 text-white/70">
             {text}
           </li>
         ))}

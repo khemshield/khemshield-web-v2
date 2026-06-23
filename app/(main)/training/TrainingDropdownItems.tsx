@@ -3,12 +3,11 @@ import DropdownMenu from "../../components/Menus/DropdownMenu";
 
 const items = [
   "All Courses",
+  "Cybersecurity",
+  "AI",
   "Development",
-  "Design",
-  "Security",
-  "Data & Analysis",
-  "Programming Languages",
-  "Technology & Infrastructure",
+  "Programming",
+  "Infrastructure",
 ];
 
 interface Props {

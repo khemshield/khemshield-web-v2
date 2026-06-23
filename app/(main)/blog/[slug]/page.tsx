@@ -37,10 +37,21 @@ export const generateStaticParams = () =>
 
 export const generateMetadata = ({ params }: Params): Metadata => {
   const post = getPostBySlug(params.slug);
-  if (!post) return { title: "Blog | Khemshield" };
+  if (!post) return { title: "Blog" };
   return {
-    title: `${post.title} | Khemshield`,
+    title: post.title,
     description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      url: `/blog/${post.slug}`,
+      publishedTime: post.date,
+      authors: [post.author],
+      tags: post.tags,
+      ...(post.cover ? { images: [{ url: post.cover, alt: post.title }] } : {}),
+    },
   };
 };
 

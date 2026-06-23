@@ -27,7 +27,7 @@ const Dropdown = ({ text, items }: Readonly<Props>) => {
         } duration-300 absolute top-full z-50 overflow-hidden rounded-lg 
         bg-white shadow-khemshadow`}
       >
-        <ul className={` w-max px-7 py-4`}>
+        <ul className={`w-max px-7 py-4 text-secondary-normal`}>
           {items.map((item, index) => (
             <li
               onClick={() => setShowMenu(false)}

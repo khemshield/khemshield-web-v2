@@ -58,7 +58,7 @@ const WhyJoinEvent = () => {
         <BaseSpacing />
         <Text>
           Join our event at no cost and connect with industry leaders, learn
-          from unique speakers each day over two weeks—three days each week, and
+          from unique speakers each day over two weeks, three days each week, and
           earn a certificate of completion. This web development and
           cybersecurity training is tailored for warriors passionate about tech
           and eager to explore potential career paths. With an emphasis on

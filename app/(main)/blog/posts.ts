@@ -1,5 +1,5 @@
 /**
- * Blog registry — the single source of truth for every post on the site.
+ * Blog registry, the single source of truth for every post on the site.
  *
  * Two kinds of posts are supported so the blog stays flexible:
  *
@@ -12,10 +12,10 @@
  *                     on-brand template at `/blog/[slug]`.
  *
  * To add a post: drop the file in the right place and add ONE entry below.
- * (Order in this array = order shown on the blog index — newest first.)
+ * (Order in this array = order shown on the blog index, newest first.)
  *
  * Later, this array can be replaced by a fetch from the GraphQL backend without
- * touching any of the rendering code — everything reads from `blogPosts`.
+ * touching any of the rendering code, everything reads from `blogPosts`.
  */
 
 export type PostType = "custom" | "article";
@@ -45,7 +45,7 @@ export const blogPosts: BlogPost[] = [
     slug: "how-ai-works",
     title: "How AI Actually Works",
     excerpt:
-      "A visual, step-by-step walk through what really happens between your prompt and the AI's answer — tokens, vectors, attention, and prediction — no maths degree required.",
+      "A visual, step-by-step walk through what really happens between your prompt and the AI's answer, tokens, vectors, attention, and prediction, no maths degree required.",
     type: "custom",
     href: "/blog-posts/how-ai-works.html",
     date: "2026-06-22",

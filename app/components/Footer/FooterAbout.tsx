@@ -5,6 +5,7 @@ import Socials, { SocialType } from "./Socials";
 
 import instagram from "@/public/assets/images/instagram.png";
 import linkedin from "@/public/assets/images/linkedin.png";
+import youtube from "@/public/assets/images/youtube.png";
 
 export const defaultSocials: SocialType[] = [
   {
@@ -16,6 +17,11 @@ export const defaultSocials: SocialType[] = [
     src: instagram,
     alt: "instagram",
     href: "https://www.instagram.com/etz_khemshield?igsh=eWZrNW02b3U5azFz",
+  },
+  {
+    src: youtube,
+    alt: "youtube",
+    href: "https://www.youtube.com/@khemshield?sub_confirmation=1",
   },
   // { src: twitter, alt: "twitter", href: "" },
 ];
@@ -29,11 +35,9 @@ const FooterAbout = () => {
     >
       <Logo withText />
       <BaseSpacing />
-      <Text>
-        we specialize in secure web and mobile application development,
-        comprehensive cybersecurity solutions, and professional training
-        programs. Our mission is to protect your business and empower future IT
-        professionals with the skills they need.
+      <Text color="gray">
+        We build and defend with security and AI at the core, from threat
+        protection and secure cloud software to AI-powered and agentic systems, and we train the next generation of builders and defenders.
       </Text>
       <BaseSpacing />
       <Socials socials={defaultSocials} />

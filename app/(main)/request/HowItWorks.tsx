@@ -14,7 +14,7 @@ const howItWorks = [
   {
     title: "Receive a Tailored Quote",
     description:
-      "Our team will review your request and craft a customized quote. This will include a detailed breakdown of the services we recommend, pricing, and timelines—everything you need to make an informed decision.",
+      "Our team will review your request and craft a customized quote. This will include a detailed breakdown of the services we recommend, pricing, and timelines, everything you need to make an informed decision.",
   },
   {
     title: "Consult with Our Experts",

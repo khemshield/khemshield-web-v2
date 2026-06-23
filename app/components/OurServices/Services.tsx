@@ -13,16 +13,16 @@ const services = [
 
   {
     image: service_mobile,
-    title: "Secure Application Development",
+    title: "Secure AI & Application Development",
     description:
-      "We build secure, reliable web and mobile applications tailored to your business needs",
+      "We build secure, reliable applications and AI solutions tailored to your business, with protection built in from day one",
   },
 
   {
     image: service_training,
     title: "Professional Training Programs",
     description:
-      "We offer specialized training for businesses and students, empowering them with the skills needed to excel in IT and cybersecurity",
+      "We offer specialized training in cybersecurity and AI for businesses and students, empowering them with the skills needed to excel in a modern IT landscape",
   },
 ];
 

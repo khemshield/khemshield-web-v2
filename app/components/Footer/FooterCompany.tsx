@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Heading from "../Generics/Heading";
 import BaseSpacing from "../Spacing/BaseSpacing";
 import NavLink from "../Navigation/NavLink";
 
@@ -20,11 +18,11 @@ const items = [
 const FooterCompany = () => {
   return (
     <section>
-      <Heading variant="h4">Company</Heading>
+      <h4 className="font-display text-lg font-semibold text-white">Company</h4>
       <BaseSpacing />
       <ul>
         {items.map(({ text, href }) => (
-          <li key={text} className="my-2">
+          <li key={text} className="my-2 text-white/70">
             <NavLink href={href}>{text}</NavLink>
           </li>
         ))}

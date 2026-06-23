@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Breadcrumb from "@/app/components/Generics/Breadcrumb";
 import HeaderContent from "@/app/components/Generics/HeaderContent";
 import Wrapper from "@/app/components/Generics/Wrapper";
@@ -5,6 +6,13 @@ import Services from "@/app/components/OurServices/Services";
 import ContentSpacing from "@/app/components/Spacing/ContentSpacing";
 import React from "react";
 import HowToGetStarted from "./HowToGetStarted";
+
+export const metadata: Metadata = {
+  title: "Our Services",
+  description:
+    "Explore Khemshield's IT services: secure application development, cybersecurity consulting, infrastructure protection, and professional training.",
+  alternates: { canonical: "/service" },
+};
 
 const ServicePage = () => {
   return (

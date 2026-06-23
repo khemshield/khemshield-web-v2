@@ -4,9 +4,12 @@ import React, { PropsWithChildren } from "react";
 import { eventSlug } from "../eventSlug";
 
 export const metadata: Metadata = {
-  title:
-    "Empowerment Series 2024: Empowering Warriors with On-Demand Skills for Remote Work - Khemshield & Jidem Foundation",
+  title: {
+    absolute:
+      "Empowerment Series 2024: Empowering Warriors with On-Demand Skills for Remote Work - Khemshield & Jidem Foundation",
+  },
   description: `Join the Empowerment Series 2024, a collaboration with the Jidem Foundation, designed to enhance your skills in cybersecurity and software engineering for remote work success`,
+  alternates: { canonical: `/event/${eventSlug}` },
   openGraph: {
     title:
       "Empowerment Series 2024: Empowering Warriors with On-Demand Skills for Remote Work - Khemshield & Jidem Foundation",

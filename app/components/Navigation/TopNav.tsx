@@ -1,16 +1,14 @@
 import React from "react";
-import Wrapper from "../Generics/Wrapper";
 import Logo from "../Generics/Logo";
 import NavItems from "./NavItems";
-import Button from "../Buttons/Button";
 import { Menu } from "iconsax-react";
 import MenuTrigger from "../Buttons/MenuTrigger";
 import RequestQuoteButton from "../Buttons/RequestQuoteButton";
 
 const TopNav = () => {
   return (
-    <header>
-      <Wrapper styles="flex items-center justify-between h-[100px]">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-ink text-white">
+      <div className="mx-auto flex h-20 max-w-[1180px] items-center justify-between gap-6 px-6 lg:px-12">
         <Logo withText />
         <NavItems />
         <div className="flex items-center gap-4">
@@ -26,7 +24,7 @@ const TopNav = () => {
             />
           </MenuTrigger>
         </div>
-      </Wrapper>
+      </div>
     </header>
   );
 };

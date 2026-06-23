@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Heading from "@/app/components/Generics/Heading";
 import Wrapper from "@/app/components/Generics/Wrapper";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Consultation",
+  description: "Khemshield consultation services, coming soon.",
+  robots: { index: false, follow: true },
+};
 
 const ConsultationPage = () => {
   return (

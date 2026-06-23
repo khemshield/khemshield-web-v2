@@ -13,10 +13,10 @@ const CircledListItem = ({
   children,
 }: Readonly<PropsWithChildren<Props>>) => {
   return (
-    <li className="flex gap-4 my-2">
+    <li className="flex gap-4 border-b border-black/[0.07] py-5 last:border-0">
       <div
-        className="h-9 min-h-9 min-w-9 w-9 rounded-full bg-primary-light flex 
-        items-center justify-center text-primary-normal font-semibold"
+        className="flex h-9 min-h-9 w-9 min-w-9 items-center justify-center
+        rounded-full bg-primary-light font-mono text-sm font-semibold text-primary-normal"
       >
         {number}
       </div>

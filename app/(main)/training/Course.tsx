@@ -4,8 +4,10 @@ import BaseSpacing from "@/app/components/Spacing/BaseSpacing";
 import { formatNumber } from "@/app/lib/formatNumber";
 import { Star1, User } from "iconsax-react";
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 
 interface Props {
+  slug: string;
   image: StaticImageData;
   price: number;
   name: string;
@@ -15,6 +17,7 @@ interface Props {
 }
 
 const Course = ({
+  slug,
   name,
   price,
   rating,
@@ -23,36 +26,48 @@ const Course = ({
   category,
 }: Props) => {
   return (
-    <article className=" shadow-khemshadow lg:max-w-[400px]">
-      <Image
-        src={image}
-        alt="Mobile App"
-        className="w-full h-60 object-cover rounded-t-lg"
-      />
-      <div className=" py-3 px-6">
-        <div className="flex items-center justify-between">
-          <div className="py-1 px-[6px] bg-primary-light">
-            <Text color="primary">{category}</Text>
-          </div>
-          <Heading variant="h4">{formatNumber(price)}</Heading>
+    <Link href={`/training/${slug}`} className="group block h-full">
+      <article
+        className="flex h-full flex-col overflow-hidden rounded-2xl bg-white
+        shadow-khemshadow ring-1 ring-secondary-light/60 transition-all duration-300
+        hover:-translate-y-1 hover:shadow-[0_14px_46px_0_rgba(0,0,0,0.10)] lg:max-w-[400px]"
+      >
+        <div className="overflow-hidden">
+          <Image
+            src={image}
+            alt={name}
+            className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
         </div>
-        <BaseSpacing />
-        <Heading variant="h4">{name}</Heading>
-        <BaseSpacing />
-        <div className="flex items-center justify-between gap-1">
-          <div className="flex items-center">
-            <Star1 size={16} variant="Bold" className=" text-orange-400" />
-            <span>{rating}</span>
+        <div className="flex flex-1 flex-col px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="bg-primary-light px-[6px] py-1">
+              <Text color="primary">{category}</Text>
+            </div>
+            <Heading variant="h4">{formatNumber(price)}</Heading>
           </div>
+          <BaseSpacing />
+          <Heading variant="h4">
+            <span className="transition-colors group-hover:text-primary-normal">
+              {name}
+            </span>
+          </Heading>
+          <BaseSpacing />
+          <div className="mt-auto flex items-center justify-between gap-1 pt-2">
+            <div className="flex items-center gap-1">
+              <Star1 size={16} variant="Bold" className="text-orange-400" />
+              <span>{rating}</span>
+            </div>
 
-          <div className=" flex items-center gap-1">
-            <User size={20} className=" text-blue-400" />{" "}
-            <Text>{formatNumber(review_count, { decimal: true })}</Text>
-            <Text color="gray"> students</Text>
+            <div className="flex items-center gap-1">
+              <User size={20} className="text-blue-400" />{" "}
+              <Text>{formatNumber(review_count, { decimal: true })}</Text>
+              <Text color="gray"> students</Text>
+            </div>
           </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </Link>
   );
 };
 
