@@ -14,5 +14,7 @@ export default function Image({ params }: { params: { slug: string } }) {
   return renderOgImage({
     eyebrow: "Khemshield Blog",
     title: post?.title ?? "Khemshield Blog",
+    subtitle: post?.excerpt,
+    tag: post?.tags?.slice(0, 2).join(" / "),
   });
 }

@@ -13,5 +13,7 @@ export function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const title = searchParams.get("title") ?? "Khemshield";
   const eyebrow = searchParams.get("eyebrow") ?? "Khemshield Blog";
-  return renderOgImage({ title, eyebrow });
+  const subtitle = searchParams.get("subtitle") ?? undefined;
+  const tag = searchParams.get("tag") ?? undefined;
+  return renderOgImage({ title, eyebrow, subtitle, tag });
 }

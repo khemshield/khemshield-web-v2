@@ -13,5 +13,7 @@ export default function Image() {
   return renderOgImage({
     eyebrow: "Khemshield",
     title: "Secure IT Solutions & Tech Training",
+    subtitle:
+      "Cybersecurity, software engineering, and hands-on training to help you grow.",
   });
 }
