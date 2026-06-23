@@ -7,8 +7,7 @@ const OurServices = () => {
   return (
     <Wrapper>
       <HeaderContent heading="Services we offer for you" center>
-        We provide a comprehensive set of end-to-end IT services & support, by
-        enabling our intelligent automation and implementing agility
+        End-to-end cybersecurity and AI services — from defending your systems to building secure, AI-powered software on solid cloud foundations.
       </HeaderContent>
       <ContentSpacing />
       <Services />

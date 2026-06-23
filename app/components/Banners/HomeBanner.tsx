@@ -12,17 +12,17 @@ const HomeBanner = () => {
     >
       <section className="lg:w-1/2 lg:pr-6">
         <p className=" text-primary-normal font-semibold">
-          Welcome to Khemshield
+          Cybersecurity &amp; AI
         </p>
         <BaseSpacing />
         <Heading variant="h2">
-          Your Partner in Secure IT Solutions and Skill Development
+          The AI era needs builders and defenders. We&apos;re both.
         </Heading>
         <Text styles="my-6">
-          From developing secure web and mobile applications to comprehensive
-          cybersecurity consulting and infrastructure protection, we ensure your
-          business stays safe. We also offer specialized training programs for
-          students eager to master these essential skills.
+          KhemShield protects businesses, builds secure web, mobile, and
+          AI-powered software on solid cloud foundations, and trains the people
+          who&apos;ll do the same. Whether you need systems defended,
+          applications built, or a team skilled up, you start here.
         </Text>
         <div className="flex flex-col xs:flex-row items-center gap-4">
           <Button
@@ -31,7 +31,7 @@ const HomeBanner = () => {
             variant="primary"
             styles="text-xs md:text-sm lg:text-base py-4 lg:py-2"
           >
-            Schedule a Consultation
+            Get a consultation
           </Button>
 
           <Button
@@ -40,7 +40,7 @@ const HomeBanner = () => {
             variant="border"
             styles="text-xs md:text-sm lg:text-base py-4 lg:py-2"
           >
-            Explore Our Training Programs
+            Explore training
           </Button>
         </div>
       </section>

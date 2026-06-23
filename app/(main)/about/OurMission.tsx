@@ -16,11 +16,12 @@ const OurMission = () => {
         <Heading variant="h3">Our Mission</Heading>
         <BaseSpacing />
         <Text>
-          Our mission is twofold: to protect businesses from the ever-evolving
-          landscape of cyber threats and to equip aspiring IT professionals with
-          the skills they need to succeed. We believe that security and
-          knowledge go hand-in-hand, and we are committed to delivering
-          high-quality services and training that make a real impact.
+          Our mission is threefold: keep businesses safe as threats evolve and
+          AI reshapes the landscape, build the secure software they run on, and
+          equip people with the skills the era now demands. We pair real client
+          work &mdash; defending and building &mdash; with hands-on training,
+          because the two sharpen each other. What we secure and ship in the
+          field is what we teach in the classroom.
         </Text>
       </section>
       <section>

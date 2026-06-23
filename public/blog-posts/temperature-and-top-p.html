@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temperature & Top_p — AI Parameter Explainer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f0f13; --bg2: #16161d; --bg3: #1e1e28;
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+    --text: #e8e6f0; --muted: #9490a8; --subtle: #5a5670;
+    --temp-color: #f97316; --temp-glow: rgba(249,115,22,0.18);
+    --topp-color: #6366f1; --topp-glow: rgba(99,102,241,0.18);
+    --radius: 12px; --radius-sm: 8px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+
+  .hero { text-align: center; padding: 64px 24px 48px; max-width: 720px; margin: 0 auto; }
+  .hero-eyebrow { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border2); border-radius: 99px; padding: 4px 14px; margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+  .hero h1 span.t { color: var(--temp-color); }
+  .hero h1 span.p { color: var(--topp-color); }
+  .hero p { font-size: 16px; color: var(--muted); max-width: 500px; margin: 0 auto; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 28px 24px; margin-bottom: 24px; transition: border-color 0.2s; }
+  .card:hover { border-color: var(--border2); }
+  .card-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+  .card-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .card-icon.temp { background: var(--temp-glow); }
+  .card-icon.topp { background: var(--topp-glow); }
+  .card-icon.both { background: linear-gradient(135deg, var(--temp-glow), var(--topp-glow)); }
+  .card-title { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .card-title .code { font-family: 'DM Mono', monospace; font-size: 17px; }
+  .card-subtitle { font-size: 14px; color: var(--muted); }
+
+  .analogy { background: var(--bg3); border-left: 3px solid; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 14px 16px; margin-bottom: 24px; font-size: 14px; }
+  .analogy.temp { border-color: var(--temp-color); }
+  .analogy.topp { border-color: var(--topp-color); }
+  .analogy-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .analogy p { color: var(--text); line-height: 1.6; }
+  .analogy strong { font-weight: 600; }
+
+  .slider-wrap { margin-bottom: 20px; }
+  .slider-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .slider-name { font-size: 13px; font-weight: 500; color: var(--muted); }
+  .slider-current { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; }
+  .slider-current.temp { color: var(--temp-color); }
+  .slider-current.topp { color: var(--topp-color); }
+
+  input[type=range] { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px; outline: none; cursor: pointer; margin-bottom: 8px; }
+  input[type=range].temp { background: linear-gradient(to right, var(--temp-color) var(--pct,50%), #2a2a38 var(--pct,50%)); }
+  input[type=range].topp { background: linear-gradient(to right, var(--topp-color) var(--pct,100%), #2a2a38 var(--pct,100%)); }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.4); transition: transform 0.1s; }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: white; border: none; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+  .slider-scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--subtle); }
+
+  .bars-title { font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; }
+  .bars { display: flex; flex-direction: column; gap: 7px; }
+  .bar-row { display: grid; grid-template-columns: 90px 1fr 44px; align-items: center; gap: 10px; }
+  .bar-word { font-size: 13px; font-family: 'DM Mono', monospace; color: var(--text); transition: opacity 0.3s; }
+  .bar-word.faded { opacity: 0.2; }
+  .bar-track { height: 18px; background: var(--bg3); border-radius: 4px; overflow: hidden; position: relative; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.35s cubic-bezier(.4,0,.2,1), opacity 0.3s; }
+  .bar-fill.faded { opacity: 0.15; }
+  .bar-pct { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--muted); text-align: right; transition: opacity 0.3s; }
+  .bar-pct.faded { opacity: 0.2; }
+
+  .state-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 99px; margin-bottom: 10px; transition: all 0.3s; }
+  .state-badge .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .state-desc { font-size: 14px; color: var(--muted); min-height: 40px; line-height: 1.6; transition: opacity 0.2s; }
+  .state-desc strong { color: var(--text); font-weight: 500; }
+
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* ── Combined section ── */
+  .pipeline { display: flex; align-items: center; gap: 0; margin-bottom: 24px; flex-wrap: wrap; }
+  .pipeline-step { flex: 1; min-width: 160px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
+  .pipeline-step .step-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .pipeline-step .step-label.t { color: var(--temp-color); }
+  .pipeline-step .step-label.p { color: var(--topp-color); }
+  .pipeline-step .step-label.s { color: #22c55e; }
+  .pipeline-step p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .pipeline-arrow { font-size: 20px; color: var(--subtle); padding: 0 8px; flex-shrink: 0; }
+
+  .combined-sliders { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  @media (max-width: 580px) { .combined-sliders { grid-template-columns: 1fr; } }
+  .mini-slider-block { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+  .mini-slider-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .mini-label { font-size: 12px; color: var(--muted); }
+  .mini-val { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; }
+  .mini-val.t { color: var(--temp-color); }
+  .mini-val.p { color: var(--topp-color); }
+
+  /* combined bars with lottery marker */
+  .cbar-row { display: grid; grid-template-columns: 82px 1fr 44px; align-items: center; gap: 10px; margin-bottom: 7px; }
+  .cbar-word { font-size: 13px; font-family: 'DM Mono', monospace; transition: opacity 0.3s; }
+  .cbar-track { height: 22px; background: var(--bg3); border-radius: 4px; overflow: visible; position: relative; }
+  .cbar-inner { height: 22px; border-radius: 4px; overflow: hidden; position: relative; }
+  .cbar-fill { height: 100%; border-radius: 4px; transition: width 0.35s cubic-bezier(.4,0,.2,1); position: relative; }
+  .cbar-pct { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--muted); text-align: right; transition: opacity 0.3s; }
+
+  /* lottery needle */
+  .needle { position: absolute; top: -3px; width: 2px; height: 28px; border-radius: 1px; background: white; pointer-events: none; transition: left 0.5s cubic-bezier(.34,1.56,.64,1), opacity 0.3s; z-index: 10; }
+  .needle::before { content:''; position: absolute; top: -5px; left: -4px; width: 10px; height: 10px; background: white; border-radius: 50%; }
+
+  /* winner flash */
+  @keyframes winner-flash { 0%{opacity:0;transform:scaleX(0.6)} 40%{opacity:1;transform:scaleX(1.02)} 100%{opacity:1;transform:scaleX(1)} }
+  .winner-glow { animation: winner-flash 0.45s ease-out forwards; }
+
+  /* draw button */
+  .draw-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 13px;
+    background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(99,102,241,0.15));
+    border: 1px solid var(--border2); border-radius: var(--radius-sm);
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+    cursor: pointer; margin: 16px 0; transition: background 0.15s, border-color 0.15s;
+  }
+  .draw-btn:hover { background: linear-gradient(135deg, rgba(249,115,22,0.25), rgba(99,102,241,0.25)); border-color: rgba(255,255,255,0.25); }
+  .draw-btn:active { transform: scale(0.98); }
+
+  /* result display */
+  .result-display { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; min-height: 52px; display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); transition: all 0.3s; }
+  .result-word { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 600; }
+  .result-sentence { font-size: 14px; color: var(--muted); }
+  .result-sentence strong { font-weight: 600; }
+  .history-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .history-chip { font-family: 'DM Mono', monospace; font-size: 11px; padding: 3px 9px; border-radius: 99px; border: 1px solid var(--border2); color: var(--muted); }
+  .history-chip.latest { border-color: rgba(255,255,255,0.3); color: var(--text); }
+
+  /* stage labels */
+  .stage-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .stage-pill { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 99px; letter-spacing: 0.04em; }
+  .stage-pill.t { background: rgba(249,115,22,0.15); color: var(--temp-color); border: 1px solid rgba(249,115,22,0.3); }
+  .stage-pill.p { background: rgba(99,102,241,0.15); color: var(--topp-color); border: 1px solid rgba(99,102,241,0.3); }
+  .stage-pill.s { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+
+  .summary-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+  .summary-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); }
+  .summary-header h2 { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
+  .summary-header p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  table.comparison { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.comparison th { padding: 12px 20px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--subtle); background: var(--bg3); border-bottom: 1px solid var(--border); }
+  table.comparison td { padding: 13px 20px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--muted); line-height: 1.55; }
+  table.comparison td:first-child { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--text); font-weight: 500; white-space: nowrap; }
+  table.comparison tr:last-child td { border-bottom: none; }
+  table.comparison tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .presets { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .preset-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border2); background: var(--bg3); color: var(--text); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .preset-btn:hover { border-color: rgba(255,255,255,0.25); background: var(--bg2); }
+  .preset-btn span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+  .footer { text-align: center; font-size: 12px; color: var(--subtle); padding: 32px 24px; border-top: 1px solid var(--border); margin-top: 16px; }
+
+  @media (max-width: 600px) { .card { padding: 20px 16px; } .bar-row,.cbar-row { grid-template-columns: 68px 1fr 36px; } .pipeline-arrow { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .bar-fill,.cbar-fill,.needle { transition: none; } }
+</style>
+</head>
+<body>
+
+<style>
+  .khem-bar{position:sticky;top:0;z-index:99999;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 20px;background:rgba(10,10,15,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08);font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+  .khem-brand{display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+  .khem-brand img{height:24px;width:auto;display:block}
+  .khem-brand span{font-size:17px;font-weight:600;letter-spacing:.02em;color:#fff;text-transform:uppercase}
+  .khem-nav{display:flex;align-items:center;gap:6px}
+  .khem-link{font:500 13px/1 system-ui,sans-serif;color:#cfcbe0;text-decoration:none;padding:8px 12px;border-radius:99px;transition:.15s;white-space:nowrap}
+  .khem-link:hover{color:#fff;background:rgba(255,255,255,.07)}
+  .khem-cta{font:600 13px/1 system-ui,sans-serif;color:#fff;text-decoration:none;padding:8px 16px;border-radius:99px;background:#F43334;transition:.15s;white-space:nowrap}
+  .khem-cta:hover{background:#B72627}
+  .khem-foot{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;border-top:1px solid rgba(255,255,255,.08);padding:56px 24px;text-align:center;background:rgba(0,0,0,.25)}
+  .khem-foot-cta{font-size:clamp(20px,4vw,28px);font-weight:600;color:#fff;margin:0 0 10px;letter-spacing:-.02em}
+  .khem-foot-sub{font-size:14px;line-height:1.6;color:#9490a8;margin:0 auto 26px;max-width:440px}
+  .khem-foot-btn{display:inline-flex;align-items:center;gap:7px;font:600 15px/1 system-ui,sans-serif;color:#fff;text-decoration:none;padding:13px 26px;border-radius:99px;background:#F43334;transition:.15s}
+  .khem-foot-btn:hover{background:#B72627;transform:translateY(-1px)}
+  .khem-foot-links{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin-top:44px;padding-top:26px;border-top:1px solid rgba(255,255,255,.06)}
+  .khem-foot-links a{font:500 13px/1 system-ui,sans-serif;color:#9490a8;text-decoration:none}
+  .khem-foot-links a:hover{color:#fff}
+  .khem-foot-copy{font-size:12px;color:#5a5670;margin-top:18px}
+  @media(max-width:480px){.khem-brand span{display:none}.khem-link{padding:8px 9px}}
+</style>
+
+<header class="khem-bar">
+  <a class="khem-brand" href="/"><img src="/konlylogo.png" alt="Khemshield"/><span>hemshield</span></a>
+  <nav class="khem-nav">
+    <a class="khem-link" href="/blog">← All articles</a>
+    <a class="khem-cta" href="/training">Training</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">AI Parameters Explained</div>
+  <h1>What are<br><span class="t">Temperature</span> &amp; <span class="p">Top_p</span>?</h1>
+  <p>Two dials that control how an AI picks its next word — and why they matter more than you think.</p>
+</div>
+
+<div class="container">
+
+  <!-- TEMPERATURE -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon temp">🌡️</div>
+      <div>
+        <div class="card-title"><span class="code">temperature</span></div>
+        <div class="card-subtitle">Reshapes the probability curve — makes it steep or flat</div>
+      </div>
+    </div>
+    <div class="analogy temp">
+      <div class="analogy-label">Analogy</div>
+      <p>Imagine a student answering a quiz. At <strong>temperature = 0</strong>, they always write the safest, most obvious answer — "The capital of France is Paris." At <strong>temperature = 2</strong>, they've had three energy drinks: they might still say Paris, but could also say "the city where croissants rule the universe." The knowledge is the same — what changes is how willing they are to take a risk on an unusual answer.</p>
+    </div>
+    <div class="slider-wrap">
+      <div class="slider-top"><span class="slider-name">temperature =</span><span class="slider-current temp" id="temp-val">1.0</span></div>
+      <input type="range" class="temp" id="temp-slider" min="0" max="200" value="100" step="1">
+      <div class="slider-scale"><span>0 — Always predictable</span><span>1 — Default</span><span>2 — Very random</span></div>
+    </div>
+    <div id="temp-badge"></div>
+    <div class="state-desc" id="temp-desc"></div>
+    <hr class="divider">
+    <div class="bars-title">Next-word probabilities for: "She felt very ___"</div>
+    <div class="bars" id="temp-bars"></div>
+  </div>
+
+  <!-- TOP_P -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon topp">🎯</div>
+      <div>
+        <div class="card-title"><span class="code">top_p</span></div>
+        <div class="card-subtitle">Cuts words below a cumulative probability threshold</div>
+      </div>
+    </div>
+    <div class="analogy topp">
+      <div class="analogy-label">Analogy</div>
+      <p>Imagine a chef choosing a dish for tonight's special. Before deciding, they first <strong>write a shortlist</strong>: the most likely options that together cover 90% of what guests might want. Anything below that — the pickled seaweed ice cream — gets crossed off entirely, no matter what. <strong>Top_p</strong> is that shortlist threshold. At <strong>top_p = 1.0</strong>, nothing is crossed off. At <strong>top_p = 0.1</strong>, only the top one or two dishes survive.</p>
+    </div>
+    <div class="slider-wrap">
+      <div class="slider-top"><span class="slider-name">top_p =</span><span class="slider-current topp" id="topp-val">1.00</span></div>
+      <input type="range" class="topp" id="topp-slider" min="1" max="100" value="100" step="1">
+      <div class="slider-scale"><span>0.01 — Only the top word</span><span>0.5 — Shortlist</span><span>1.0 — All words allowed</span></div>
+    </div>
+    <div id="topp-badge"></div>
+    <div class="state-desc" id="topp-desc"></div>
+    <hr class="divider">
+    <div class="bars-title">Next-word probabilities for: "She felt very ___"</div>
+    <div class="bars" id="topp-bars"></div>
+  </div>
+
+  <!-- COMBINED -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon both">⚡</div>
+      <div>
+        <div class="card-title">Both working together</div>
+        <div class="card-subtitle">See the two-stage process — then run the lottery to pick a word</div>
+      </div>
+    </div>
+
+    <!-- pipeline explanation -->
+    <div class="pipeline">
+      <div class="pipeline-step">
+        <div class="step-label t">Stage 1 — Temperature</div>
+        <p>Reshapes all probabilities. High temp = flat curve. Low temp = steep curve.</p>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-label p">Stage 2 — Top_p</div>
+        <p>Walks down the reshaped list, adds up probabilities, cuts off the tail.</p>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-label s">Stage 3 — Sample</div>
+        <p>Randomly draws one word from what's left — weighted by its probability.</p>
+      </div>
+    </div>
+
+    <!-- dual sliders -->
+    <div class="combined-sliders">
+      <div class="mini-slider-block">
+        <div class="mini-slider-top"><span class="mini-label">temperature =</span><span class="mini-val t" id="c-temp-val">1.0</span></div>
+        <input type="range" class="temp" id="c-temp-slider" min="0" max="200" value="100" step="1">
+      </div>
+      <div class="mini-slider-block">
+        <div class="mini-slider-top"><span class="mini-label">top_p =</span><span class="mini-val p" id="c-topp-val">1.00</span></div>
+        <input type="range" class="topp" id="c-topp-slider" min="1" max="100" value="100" step="1">
+      </div>
+    </div>
+
+    <!-- stage labels -->
+    <div class="stage-row">
+      <span class="stage-pill t">🌡 Temperature applied</span>
+      <span class="stage-pill p" id="c-topp-pill">🎯 Top_p: all words in pool</span>
+      <span class="stage-pill s" id="c-pool-pill">7 words in lottery</span>
+    </div>
+
+    <!-- combined bars -->
+    <div class="bars-title">Probability after both parameters</div>
+    <div id="combined-bars"></div>
+
+    <!-- draw button -->
+    <button class="draw-btn" onclick="drawLottery()">🎲 Draw a word — run the lottery</button>
+
+    <!-- result -->
+    <div class="result-display" id="result-display">
+      <span style="color:var(--subtle);font-size:13px">Hit the button to sample a word from the current distribution</span>
+    </div>
+    <div class="history-row" id="history-row"></div>
+  </div>
+
+  <!-- PRESETS -->
+  <div class="card">
+    <div class="card-header" style="margin-bottom:16px">
+      <div>
+        <div class="card-title" style="font-size:17px">Quick presets</div>
+        <div class="card-subtitle">Click to load common use-case combinations into all three sections</div>
+      </div>
+    </div>
+    <div class="presets">
+      <button class="preset-btn" onclick="applyPreset(0.1,1.0)"><span style="background:#22c55e"></span>Factual / code</button>
+      <button class="preset-btn" onclick="applyPreset(0.5,1.0)"><span style="background:#3b82f6"></span>Balanced answers</button>
+      <button class="preset-btn" onclick="applyPreset(1.0,1.0)"><span style="background:#f59e0b"></span>Default (Groq)</button>
+      <button class="preset-btn" onclick="applyPreset(1.3,0.9)"><span style="background:#f97316"></span>Creative writing</button>
+      <button class="preset-btn" onclick="applyPreset(1.8,0.8)"><span style="background:#ef4444"></span>Brainstorm / wild</button>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="summary-card">
+    <div class="summary-header">
+      <h2>Side-by-side comparison</h2>
+      <p>Key differences at a glance</p>
+    </div>
+    <table class="comparison">
+      <thead><tr><th>Property</th><th>temperature</th><th>top_p</th></tr></thead>
+      <tbody>
+        <tr><td>What it does</td><td>Reshapes probabilities — stretches or squashes the whole curve</td><td>Hard filters — removes words below a cumulative threshold</td></tr>
+        <tr><td>Analogy</td><td>A student's risk appetite on an exam</td><td>A chef's shortlist before choosing tonight's special</td></tr>
+        <tr><td>At minimum</td><td>0 → always picks the single most likely word</td><td>~0 → only one word survives the cut</td></tr>
+        <tr><td>At maximum</td><td>2 → all words become nearly equally likely</td><td>1.0 → every word in the vocabulary is allowed</td></tr>
+        <tr><td>Changes %?</td><td>Yes — every word's probability shifts up or down</td><td>No — probabilities stay the same, words just get removed</td></tr>
+        <tr><td>Common default</td><td>1.0</td><td>1.0 (effectively off)</td></tr>
+        <tr><td>Use both?</td><td colspan="2">Generally no — adjust one at a time. Temperature is your main dial; top_p is a safety net.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<div class="footer">Made for classroom use · AI Parameters Explained</div>
+
+<script>
+const words = ["happy","excited","tired","grateful","nervous","calm","lost"];
+const base  = [0.34,0.21,0.17,0.12,0.08,0.05,0.03];
+const barColors = ["#f97316","#fb923c","#fdba74","#fcd34d","#86efac","#6ee7b7","#67e8f9"];
+const toppColors= ["#6366f1","#818cf8","#a5b4fc","#c7d2fe","#9fa8cf","#b0b8e0","#c8ceee"];
+let drawHistory = [];
+let lastNeedles = {}; // track needle positions per bar
+
+function softmax(logits) {
+  const m = Math.max(...logits);
+  const e = logits.map(x => Math.exp(x-m));
+  const s = e.reduce((a,b)=>a+b,0);
+  return e.map(x=>x/s);
+}
+function applyTemp(temp) {
+  if(temp<0.01) temp=0.01;
+  return softmax(base.map(p=>Math.log(p+1e-9)/temp));
+}
+function getCutoff(probs, topp) {
+  let cum=0, cut=probs.length;
+  for(let i=0;i<probs.length;i++){cum+=probs[i];if(cum>=topp){cut=i+1;break;}}
+  return cut;
+}
+function badge(text,color){
+  return `<div class="state-badge" style="background:${color}22;color:${color};border:1px solid ${color}44;margin-bottom:10px"><div class="dot" style="background:${color}"></div>${text}</div>`;
+}
+
+/* ── Individual section renderers ── */
+function renderBars(container, probs, cutoff, palette) {
+  container.innerHTML="";
+  probs.forEach((p,i)=>{
+    const faded = cutoff!==null && i>=cutoff;
+    const pct = Math.round(p*100);
+    const row=document.createElement("div"); row.className="bar-row";
+    row.innerHTML=`<div class="bar-word${faded?' faded':''}">${words[i]}</div><div class="bar-track"><div class="bar-fill${faded?' faded':''}" style="width:${pct}%;background:${palette[i]}"></div></div><div class="bar-pct${faded?' faded':''}">${pct}%</div>`;
+    container.appendChild(row);
+  });
+}
+
+function updateTemp() {
+  const raw=parseInt(document.getElementById("temp-slider").value);
+  const temp=raw/100;
+  document.getElementById("temp-val").textContent=temp.toFixed(1);
+  document.getElementById("temp-slider").style.setProperty("--pct",((raw/200)*100)+"%");
+  const probs=applyTemp(temp);
+  renderBars(document.getElementById("temp-bars"),probs,null,barColors);
+  let b,desc;
+  if(temp<=0.25){b=badge("Very focused","#22c55e");desc=`<strong>Almost deterministic.</strong> Nearly always picks <strong>"happy"</strong>. Good for factual Q&A and code.`;}
+  else if(temp<=0.7){b=badge("Focused","#3b82f6");desc=`<strong>Prefers the top words</strong> but occasionally explores. Good for structured output or Q&A.`;}
+  else if(temp<=1.2){b=badge("Balanced","#f59e0b");desc=`<strong>The default sweet spot.</strong> Top words preferred, but every word has a genuine chance.`;}
+  else if(temp<=1.6){b=badge("Creative","#f97316");desc=`<strong>Noticeably adventurous.</strong> Words like <strong>"nervous"</strong> and <strong>"calm"</strong> are now real contenders.`;}
+  else{b=badge("Very random","#ef4444");desc=`<strong>Approaching chaos.</strong> All words become nearly equally likely — responses may lose coherence.`;}
+  document.getElementById("temp-badge").innerHTML=b;
+  document.getElementById("temp-desc").innerHTML=desc;
+}
+
+function updateTopP() {
+  const raw=parseInt(document.getElementById("topp-slider").value)/100;
+  document.getElementById("topp-val").textContent=raw.toFixed(2);
+  document.getElementById("topp-slider").style.setProperty("--pct",raw*100+"%");
+  const cutoff=getCutoff(base,raw);
+  renderBars(document.getElementById("topp-bars"),base,cutoff,toppColors);
+  const active=words.slice(0,cutoff).join(", ");
+  let b,desc;
+  if(cutoff<=1){b=badge("One word only","#ef4444");desc=`<strong>One word on the shortlist:</strong> <strong>"${words[0]}"</strong>. Everything else eliminated.`;}
+  else if(cutoff<=2){b=badge("Very narrow","#f97316");desc=`<strong>Only considering:</strong> <strong>${active}</strong>. All others crossed off before sampling.`;}
+  else if(cutoff<=4){b=badge("Moderate shortlist","#f59e0b");desc=`<strong>Shortlist: ${active}.</strong> Rare words filtered out, but still meaningful variety.`;}
+  else{b=badge("Full pool","#22c55e");desc=`<strong>No words excluded.</strong> Every word stays in — selection is purely by probability. This is the default.`;}
+  document.getElementById("topp-badge").innerHTML=b;
+  document.getElementById("topp-desc").innerHTML=desc;
+}
+
+/* ── Combined section ── */
+function getCombinedState() {
+  const temp = parseInt(document.getElementById("c-temp-slider").value)/100;
+  const topp = parseInt(document.getElementById("c-topp-slider").value)/100;
+  const afterTemp = applyTemp(temp);
+  const cutoff = getCutoff(afterTemp, topp);
+  // renormalise within cutoff
+  const poolProbs = afterTemp.slice(0,cutoff);
+  const poolSum = poolProbs.reduce((a,b)=>a+b,0);
+  const finalProbs = afterTemp.map((p,i)=> i<cutoff ? p/poolSum : 0);
+  return {temp, topp, afterTemp, cutoff, finalProbs};
+}
+
+function renderCombined() {
+  const {temp, topp, afterTemp, cutoff, finalProbs} = getCombinedState();
+
+  // update mini slider displays
+  document.getElementById("c-temp-val").textContent = temp.toFixed(1);
+  document.getElementById("c-topp-val").textContent = topp.toFixed(2);
+  document.getElementById("c-temp-slider").style.setProperty("--pct",((temp/2)*100)+"%");
+  document.getElementById("c-topp-slider").style.setProperty("--pct",topp*100+"%");
+
+  // update pills
+  const poolSize = cutoff;
+  document.getElementById("c-pool-pill").textContent = `${poolSize} word${poolSize!==1?'s':''} in lottery`;
+  document.getElementById("c-topp-pill").textContent =
+    cutoff >= words.length ? "🎯 Top_p: all words in pool" : `🎯 Top_p: cut after word ${cutoff}`;
+
+  // render bars with split-color fill: orange (temp effect) gated by cutoff
+  const container = document.getElementById("combined-bars");
+  container.innerHTML="";
+  finalProbs.forEach((p,i)=>{
+    const inPool = i < cutoff;
+    const pct = Math.round(p*100);
+    const rawPct = Math.round(afterTemp[i]*100);
+    const row = document.createElement("div"); row.className="cbar-row";
+    const trackId = `ctrack-${i}`;
+    row.innerHTML=`
+      <div class="cbar-word" style="opacity:${inPool?1:0.2}">${words[i]}</div>
+      <div class="cbar-track" id="${trackId}">
+        <div class="cbar-inner">
+          <div class="cbar-fill" style="width:${inPool?pct:rawPct}%;background:${inPool?barColors[i]:'#3a3a4a'};opacity:${inPool?1:0.25}"></div>
+        </div>
+      </div>
+      <div class="cbar-pct" style="opacity:${inPool?1:0.2}">${inPool?pct+'%':'—'}</div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+/* ── Lottery ── */
+function weightedSample(probs) {
+  const r = Math.random();
+  let cum = 0;
+  for(let i=0;i<probs.length;i++){
+    cum += probs[i];
+    if(r <= cum) return i;
+  }
+  return probs.length-1;
+}
+
+function drawLottery() {
+  const {finalProbs, cutoff} = getCombinedState();
+  const picked = weightedSample(finalProbs);
+  const word = words[picked];
+  const pct = Math.round(finalProbs[picked]*100);
+  const color = barColors[picked];
+
+  // animate needle on the picked bar
+  const trackEl = document.getElementById(`ctrack-${picked}`);
+  if(trackEl) {
+    // remove old needle if any
+    const old = trackEl.querySelector('.needle');
+    if(old) old.remove();
+    const needle = document.createElement('div');
+    needle.className = 'needle winner-glow';
+    needle.style.left = pct + '%';
+    needle.style.background = color;
+    needle.style.setProperty('--color', color);
+    needle.querySelector = ()=>null;
+    trackEl.style.overflow = 'visible';
+    trackEl.appendChild(needle);
+    setTimeout(()=>{ needle.remove(); }, 2200);
+  }
+
+  // result display
+  const rd = document.getElementById("result-display");
+  rd.innerHTML=`
+    <span class="result-word" style="color:${color}">${word}</span>
+    <div>
+      <div class="result-sentence">→ <strong>"She felt very ${word}."</strong></div>
+      <div style="font-size:12px;color:var(--subtle);margin-top:2px">This word had a ${pct}% chance — drawn from ${cutoff} word${cutoff!==1?'s':''} in the pool</div>
+    </div>
+  `;
+
+  // history
+  drawHistory.unshift({word, color});
+  if(drawHistory.length>12) drawHistory.pop();
+  const hr = document.getElementById("history-row");
+  hr.innerHTML = drawHistory.map((h,idx)=>`<span class="history-chip${idx===0?' latest':''}" style="${idx===0?'color:'+h.color+';border-color:'+h.color+'55':''}">${h.word}</span>`).join('');
+}
+
+function applyPreset(temp, topp) {
+  document.getElementById("temp-slider").value = Math.round(temp*100);
+  document.getElementById("topp-slider").value = Math.round(topp*100);
+  document.getElementById("c-temp-slider").value = Math.round(temp*100);
+  document.getElementById("c-topp-slider").value = Math.round(topp*100);
+  updateTemp(); updateTopP(); renderCombined();
+}
+
+document.getElementById("temp-slider").addEventListener("input", updateTemp);
+document.getElementById("topp-slider").addEventListener("input", updateTopP);
+document.getElementById("c-temp-slider").addEventListener("input", renderCombined);
+document.getElementById("c-topp-slider").addEventListener("input", renderCombined);
+
+updateTemp(); updateTopP(); renderCombined();
+</script>
+
+<footer class="khem-foot">
+  <p class="khem-foot-cta">Ready to learn this hands-on?</p>
+  <p class="khem-foot-sub">Turn what you just read into real, job-ready skills with Khemshield's practical, mentor-led training.</p>
+  <a class="khem-foot-btn" href="/training">Explore our Training →</a>
+  <div class="khem-foot-links">
+    <a href="/blog">Blog</a><a href="/training">Training</a><a href="/service">Services</a><a href="/contact">Contact</a>
+  </div>
+  <p class="khem-foot-copy">© Khemshield. All rights reserved.</p>
+</footer>
+</body>
+</html>

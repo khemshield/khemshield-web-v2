@@ -16,11 +16,11 @@ const items = [
     href: "/faq",
     icon: undefined,
   },
-  // {
-  //   text: "Blog",
-  //   href: "/blog",
-  //   icon: undefined,
-  // },
+  {
+    text: "Blog",
+    href: "/blog",
+    icon: undefined,
+  },
   {
     text: "Events",
     href: "/event",

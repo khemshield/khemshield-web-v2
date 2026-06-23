@@ -36,14 +36,10 @@ const navsItems = [
         text: "Events",
         href: "/event",
       },
-      // {
-      //   text: "Events",
-      //   href: "/event",
-      // },
-      // {
-      //   text: "Blog",
-      //   href: "/blog",
-      // },
+      {
+        text: "Blog",
+        href: "/blog",
+      },
       {
         text: "Faq",
         href: "/faq",

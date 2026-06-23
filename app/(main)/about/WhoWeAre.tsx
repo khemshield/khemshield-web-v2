@@ -40,17 +40,17 @@ const WhoWeAre = () => {
         </Text>
         <BaseSpacing />
         <Heading variant={"h3"}>
-          Your Partners in Secure IT Solutions and Professional Growth
+          Cybersecurity, AI, and the Skills to Build Both
         </Heading>
         <BaseSpacing />
         <Text>
-          At Khemshield, we are a team of dedicated IT professionals with a
-          passion for security and innovation. With years of experience in the
-          industry, we specialize in developing secure web and mobile
-          applications, providing comprehensive cybersecurity consulting, and
-          offering tailored infrastructure protection services. Our mission is
-          to safeguard businesses and empower the next generation of IT
-          professionals through expert training.
+          We&apos;re a team of security engineers, developers, and educators who
+          believe the AI era needs both builders and defenders &mdash; so we do
+          both. KhemShield secures businesses with cybersecurity and AI-driven
+          defense, builds secure web, mobile, and AI-powered software on
+          hardened cloud, and trains the next generation to do the same.
+          Security, engineering, and intelligence &mdash; treated as one
+          discipline, not separate departments.
         </Text>
       </section>
     </article>

@@ -7,6 +7,7 @@ import OurServices from "../components/OurServices/OurServices";
 import ContentSpacing from "../components/Spacing/ContentSpacing";
 import Testimonials from "../components/Testimonials/Testimonials";
 import WhyChooseUs from "../components/WhyChooseUs/WhyChooseUs";
+import HomeBlog from "../components/Blog/HomeBlog";
 
 export default function HomePage() {
   return (
@@ -21,6 +22,8 @@ export default function HomePage() {
       <WhyChooseUs />
       <ContentSpacing />
       <OurServices />
+      <ContentSpacing />
+      <HomeBlog />
       <ContentSpacing />
       <CallToActionBanner />
       <ContentSpacing />
