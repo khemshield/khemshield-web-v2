@@ -40,6 +40,21 @@ export interface BlogPost {
   accent?: string;
 }
 
+/**
+ * Build the URL of the generated branded share card for use as a cover image.
+ * Same image the social/OG preview uses, so the on-site card matches the share
+ * card and we add no new image files. Served by the /og route.
+ */
+const ogCover = (
+  title: string,
+  opts?: { subtitle?: string; tag?: string }
+): string => {
+  const params = new URLSearchParams({ title });
+  if (opts?.subtitle) params.set("subtitle", opts.subtitle);
+  if (opts?.tag) params.set("tag", opts.tag);
+  return `/og?${params.toString()}`;
+};
+
 export const blogPosts: BlogPost[] = [
   {
     slug: "how-ai-works",
@@ -52,6 +67,10 @@ export const blogPosts: BlogPost[] = [
     readTime: "12 min read",
     tags: ["AI", "Fundamentals", "Explainer"],
     author: "Khemshield",
+    cover: ogCover("How AI Actually Works", {
+      subtitle: "What really happens between your prompt and the answer.",
+      tag: "AI / Explainer",
+    }),
     accent: "from-[#a78bfa] via-[#6366f1] to-[#2dd4bf]",
   },
   {
@@ -65,6 +84,10 @@ export const blogPosts: BlogPost[] = [
     readTime: "8 min read",
     tags: ["AI", "Parameters", "Interactive"],
     author: "Khemshield",
+    cover: ogCover("Temperature & Top-p, Explained", {
+      subtitle: "The two dials that shape how an AI writes.",
+      tag: "AI / Interactive",
+    }),
     accent: "from-[#f97316] via-[#fb923c] to-[#6366f1]",
   },
   // ─────────────────────────────────────────────────────────────────────────
