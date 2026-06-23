@@ -1004,7 +1004,11 @@
         <div
           style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
         >
-          <button class="predict-btn" onclick="runPrediction()">
+          <button
+            class="predict-btn"
+            id="generate-btn"
+            onclick="runPrediction()"
+          >
             ▶ Generate word by word
           </button>
           <button
@@ -1015,6 +1019,10 @@
             Clear
           </button>
         </div>
+        <div
+          id="demo-quota"
+          style="font-size: 12px; margin-top: 12px"
+        ></div>
         <div class="output-stream" id="output-stream">
           <span style="color: var(--subtle)">Output will appear here...</span>
         </div>
@@ -1594,6 +1602,56 @@
    Calls our own /api/ai-demo proxy, which holds the API key server-side.
    No key is ever exposed in the browser.
 ════════════════════════════════ */
+      /* Daily per-user limit (browser side). The server adds an IP backstop. */
+      const DEMO_DAILY_LIMIT = 10;
+      const DEMO_STORAGE_KEY = "khemshield_ai_demo_usage";
+
+      function demoToday() {
+        return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      }
+      function getDemoUsage() {
+        try {
+          const raw = JSON.parse(localStorage.getItem(DEMO_STORAGE_KEY) || "{}");
+          if (raw.date !== demoToday()) return { date: demoToday(), count: 0 };
+          return { date: raw.date, count: raw.count || 0 };
+        } catch (e) {
+          return { date: demoToday(), count: 0 };
+        }
+      }
+      function bumpDemoUsage() {
+        const usage = getDemoUsage();
+        try {
+          localStorage.setItem(
+            DEMO_STORAGE_KEY,
+            JSON.stringify({ date: demoToday(), count: usage.count + 1 })
+          );
+        } catch (e) {}
+      }
+      function demoRemaining() {
+        return Math.max(0, DEMO_DAILY_LIMIT - getDemoUsage().count);
+      }
+      function updateDemoQuotaUI() {
+        const el = document.getElementById("demo-quota");
+        const btn = document.getElementById("generate-btn");
+        if (!el) return;
+        const left = demoRemaining();
+        if (left > 0) {
+          el.innerHTML = `<span style="color:var(--muted)">${left} of ${DEMO_DAILY_LIMIT} free generations left today.</span>`;
+          if (btn) {
+            btn.disabled = false;
+            btn.style.opacity = "";
+            btn.style.cursor = "";
+          }
+        } else {
+          el.innerHTML = `<span style="color:#f59e0b">You've used all ${DEMO_DAILY_LIMIT} free generations for today. Please come back tomorrow.</span>`;
+          if (btn) {
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            btn.style.cursor = "not-allowed";
+          }
+        }
+      }
+
       let isGenerating = false;
       async function runPrediction() {
         if (isGenerating) return;
@@ -1601,6 +1659,13 @@
         if (!prompt) {
           document.getElementById("output-stream").innerHTML =
             '<span style="color:#ef4444">Please type a prompt first.</span>';
+          return;
+        }
+
+        if (demoRemaining() <= 0) {
+          document.getElementById("output-stream").innerHTML =
+            `<span style="color:#f59e0b">You've reached today's limit of ${DEMO_DAILY_LIMIT} generations. This keeps the free demo available for everyone, please come back tomorrow.</span>`;
+          updateDemoQuotaUI();
           return;
         }
 
@@ -1617,9 +1682,23 @@
           });
 
           if (!response.ok) {
-            const err = await response.json();
-            throw new Error(err.error?.message || "API error");
+            let message = "API error";
+            try {
+              const err = await response.json();
+              message = err.error?.message || message;
+            } catch (e) {}
+            if (response.status === 429) {
+              // Rate-limited by the server backstop: show it, don't count it.
+              out.innerHTML = `<span style="color:#f59e0b">${message}</span>`;
+              isGenerating = false;
+              return;
+            }
+            throw new Error(message);
           }
+
+          // Generation accepted: count it against today's per-user allowance.
+          bumpDemoUsage();
+          updateDemoQuotaUI();
 
           const reader = response.body.getReader();
           const decoder = new TextDecoder();
@@ -1682,6 +1761,7 @@
       initStepper();
       initAttn();
       initTraining();
+      updateDemoQuotaUI();
     </script>
   
 <footer class="khem-foot">
