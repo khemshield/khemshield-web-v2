@@ -15,7 +15,7 @@
 <meta property="og:title" content="Temperature & Top-p, Explained">
 <meta property="og:description" content="Two dials control how creative or predictable an AI's writing is. Play with the interactive sliders to see exactly how temperature and top-p reshape what the model says.">
 <meta property="og:url" content="https://www.khemshield.com/blog-posts/temperature-and-top-p.html">
-<meta property="og:image" content="https://www.khemshield.com/og?title=Temperature%20%26%20Top-p%2C%20Explained&amp;subtitle=The%20two%20dials%20that%20shape%20how%20an%20AI%20writes.&amp;tag=AI%20%2F%20Interactive">
+<meta property="og:image" content="https://www.khemshield.com/og?title=Temperature%20%26%20Top-p%2C%20Explained">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Temperature & Top-p, Explained">
 <meta name="twitter:description" content="Two dials control how creative or predictable an AI's writing is. Play with the interactive sliders to see exactly how temperature and top-p reshape what the model says.">
-<meta name="twitter:image" content="https://www.khemshield.com/og?title=Temperature%20%26%20Top-p%2C%20Explained&amp;subtitle=The%20two%20dials%20that%20shape%20how%20an%20AI%20writes.&amp;tag=AI%20%2F%20Interactive">
+<meta name="twitter:image" content="https://www.khemshield.com/og?title=Temperature%20%26%20Top-p%2C%20Explained">
 
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -218,7 +218,7 @@
 <div class="hero">
   <div class="hero-eyebrow">AI Parameters Explained</div>
   <h1>What are<br><span class="t">Temperature</span> &amp; <span class="p">Top_p</span>?</h1>
-  <p>Two dials that control how an AI picks its next word — and why they matter more than you think.</p>
+  <p>Two dials that control how an AI picks its next word, and why they matter more than you think.</p>
 </div>
 
 <div class="container">
@@ -229,17 +229,17 @@
       <div class="card-icon temp">🌡️</div>
       <div>
         <div class="card-title"><span class="code">temperature</span></div>
-        <div class="card-subtitle">Reshapes the probability curve — makes it steep or flat</div>
+        <div class="card-subtitle">Reshapes the probability curve, makes it steep or flat</div>
       </div>
     </div>
     <div class="analogy temp">
       <div class="analogy-label">Analogy</div>
-      <p>Imagine a student answering a quiz. At <strong>temperature = 0</strong>, they always write the safest, most obvious answer — "The capital of France is Paris." At <strong>temperature = 2</strong>, they've had three energy drinks: they might still say Paris, but could also say "the city where croissants rule the universe." The knowledge is the same — what changes is how willing they are to take a risk on an unusual answer.</p>
+      <p>Imagine a student answering a quiz. At <strong>temperature = 0</strong>, they always write the safest, most obvious answer, "The capital of France is Paris." At <strong>temperature = 2</strong>, they've had three energy drinks: they might still say Paris, but could also say "the city where croissants rule the universe." The knowledge is the same, what changes is how willing they are to take a risk on an unusual answer.</p>
     </div>
     <div class="slider-wrap">
       <div class="slider-top"><span class="slider-name">temperature =</span><span class="slider-current temp" id="temp-val">1.0</span></div>
       <input type="range" class="temp" id="temp-slider" min="0" max="200" value="100" step="1">
-      <div class="slider-scale"><span>0 — Always predictable</span><span>1 — Default</span><span>2 — Very random</span></div>
+      <div class="slider-scale"><span>0: Always predictable</span><span>1: Default</span><span>2: Very random</span></div>
     </div>
     <div id="temp-badge"></div>
     <div class="state-desc" id="temp-desc"></div>
@@ -259,12 +259,12 @@
     </div>
     <div class="analogy topp">
       <div class="analogy-label">Analogy</div>
-      <p>Imagine a chef choosing a dish for tonight's special. Before deciding, they first <strong>write a shortlist</strong>: the most likely options that together cover 90% of what guests might want. Anything below that — the pickled seaweed ice cream — gets crossed off entirely, no matter what. <strong>Top_p</strong> is that shortlist threshold. At <strong>top_p = 1.0</strong>, nothing is crossed off. At <strong>top_p = 0.1</strong>, only the top one or two dishes survive.</p>
+      <p>Imagine a chef choosing a dish for tonight's special. Before deciding, they first <strong>write a shortlist</strong>: the most likely options that together cover 90% of what guests might want. Anything below that, the pickled seaweed ice cream, gets crossed off entirely, no matter what. <strong>Top_p</strong> is that shortlist threshold. At <strong>top_p = 1.0</strong>, nothing is crossed off. At <strong>top_p = 0.1</strong>, only the top one or two dishes survive.</p>
     </div>
     <div class="slider-wrap">
       <div class="slider-top"><span class="slider-name">top_p =</span><span class="slider-current topp" id="topp-val">1.00</span></div>
       <input type="range" class="topp" id="topp-slider" min="1" max="100" value="100" step="1">
-      <div class="slider-scale"><span>0.01 — Only the top word</span><span>0.5 — Shortlist</span><span>1.0 — All words allowed</span></div>
+      <div class="slider-scale"><span>0.01: Only the top word</span><span>0.5: Shortlist</span><span>1.0: All words allowed</span></div>
     </div>
     <div id="topp-badge"></div>
     <div class="state-desc" id="topp-desc"></div>
@@ -279,25 +279,25 @@
       <div class="card-icon both">⚡</div>
       <div>
         <div class="card-title">Both working together</div>
-        <div class="card-subtitle">See the two-stage process — then run the lottery to pick a word</div>
+        <div class="card-subtitle">See the two-stage process, then run the lottery to pick a word</div>
       </div>
     </div>
 
     <!-- pipeline explanation -->
     <div class="pipeline">
       <div class="pipeline-step">
-        <div class="step-label t">Stage 1 — Temperature</div>
+        <div class="step-label t">Stage 1: Temperature</div>
         <p>Reshapes all probabilities. High temp = flat curve. Low temp = steep curve.</p>
       </div>
       <div class="pipeline-arrow">→</div>
       <div class="pipeline-step">
-        <div class="step-label p">Stage 2 — Top_p</div>
+        <div class="step-label p">Stage 2: Top_p</div>
         <p>Walks down the reshaped list, adds up probabilities, cuts off the tail.</p>
       </div>
       <div class="pipeline-arrow">→</div>
       <div class="pipeline-step">
-        <div class="step-label s">Stage 3 — Sample</div>
-        <p>Randomly draws one word from what's left — weighted by its probability.</p>
+        <div class="step-label s">Stage 3: Sample</div>
+        <p>Randomly draws one word from what's left, weighted by its probability.</p>
       </div>
     </div>
 
@@ -325,7 +325,7 @@
     <div id="combined-bars"></div>
 
     <!-- draw button -->
-    <button class="draw-btn" onclick="drawLottery()">🎲 Draw a word — run the lottery</button>
+    <button class="draw-btn" onclick="drawLottery()">🎲 Draw a word, run the lottery</button>
 
     <!-- result -->
     <div class="result-display" id="result-display">
@@ -360,13 +360,13 @@
     <table class="comparison">
       <thead><tr><th>Property</th><th>temperature</th><th>top_p</th></tr></thead>
       <tbody>
-        <tr><td>What it does</td><td>Reshapes probabilities — stretches or squashes the whole curve</td><td>Hard filters — removes words below a cumulative threshold</td></tr>
+        <tr><td>What it does</td><td>Reshapes probabilities, stretches or squashes the whole curve</td><td>Hard filters, removes words below a cumulative threshold</td></tr>
         <tr><td>Analogy</td><td>A student's risk appetite on an exam</td><td>A chef's shortlist before choosing tonight's special</td></tr>
         <tr><td>At minimum</td><td>0 → always picks the single most likely word</td><td>~0 → only one word survives the cut</td></tr>
         <tr><td>At maximum</td><td>2 → all words become nearly equally likely</td><td>1.0 → every word in the vocabulary is allowed</td></tr>
-        <tr><td>Changes %?</td><td>Yes — every word's probability shifts up or down</td><td>No — probabilities stay the same, words just get removed</td></tr>
+        <tr><td>Changes %?</td><td>Yes, every word's probability shifts up or down</td><td>No, probabilities stay the same, words just get removed</td></tr>
         <tr><td>Common default</td><td>1.0</td><td>1.0 (effectively off)</td></tr>
-        <tr><td>Use both?</td><td colspan="2">Generally no — adjust one at a time. Temperature is your main dial; top_p is a safety net.</td></tr>
+        <tr><td>Use both?</td><td colspan="2">Generally no, adjust one at a time. Temperature is your main dial; top_p is a safety net.</td></tr>
       </tbody>
     </table>
   </div>
@@ -425,7 +425,7 @@ function updateTemp() {
   else if(temp<=0.7){b=badge("Focused","#3b82f6");desc=`<strong>Prefers the top words</strong> but occasionally explores. Good for structured output or Q&A.`;}
   else if(temp<=1.2){b=badge("Balanced","#f59e0b");desc=`<strong>The default sweet spot.</strong> Top words preferred, but every word has a genuine chance.`;}
   else if(temp<=1.6){b=badge("Creative","#f97316");desc=`<strong>Noticeably adventurous.</strong> Words like <strong>"nervous"</strong> and <strong>"calm"</strong> are now real contenders.`;}
-  else{b=badge("Very random","#ef4444");desc=`<strong>Approaching chaos.</strong> All words become nearly equally likely — responses may lose coherence.`;}
+  else{b=badge("Very random","#ef4444");desc=`<strong>Approaching chaos.</strong> All words become nearly equally likely, responses may lose coherence.`;}
   document.getElementById("temp-badge").innerHTML=b;
   document.getElementById("temp-desc").innerHTML=desc;
 }
@@ -441,7 +441,7 @@ function updateTopP() {
   if(cutoff<=1){b=badge("One word only","#ef4444");desc=`<strong>One word on the shortlist:</strong> <strong>"${words[0]}"</strong>. Everything else eliminated.`;}
   else if(cutoff<=2){b=badge("Very narrow","#f97316");desc=`<strong>Only considering:</strong> <strong>${active}</strong>. All others crossed off before sampling.`;}
   else if(cutoff<=4){b=badge("Moderate shortlist","#f59e0b");desc=`<strong>Shortlist: ${active}.</strong> Rare words filtered out, but still meaningful variety.`;}
-  else{b=badge("Full pool","#22c55e");desc=`<strong>No words excluded.</strong> Every word stays in — selection is purely by probability. This is the default.`;}
+  else{b=badge("Full pool","#22c55e");desc=`<strong>No words excluded.</strong> Every word stays in, selection is purely by probability. This is the default.`;}
   document.getElementById("topp-badge").innerHTML=b;
   document.getElementById("topp-desc").innerHTML=desc;
 }
@@ -490,7 +490,7 @@ function renderCombined() {
           <div class="cbar-fill" style="width:${inPool?pct:rawPct}%;background:${inPool?barColors[i]:'#3a3a4a'};opacity:${inPool?1:0.25}"></div>
         </div>
       </div>
-      <div class="cbar-pct" style="opacity:${inPool?1:0.2}">${inPool?pct+'%':'—'}</div>
+      <div class="cbar-pct" style="opacity:${inPool?1:0.2}">${inPool?pct+'%':'-'}</div>
     `;
     container.appendChild(row);
   });
@@ -537,7 +537,7 @@ function drawLottery() {
     <span class="result-word" style="color:${color}">${word}</span>
     <div>
       <div class="result-sentence">→ <strong>"She felt very ${word}."</strong></div>
-      <div style="font-size:12px;color:var(--subtle);margin-top:2px">This word had a ${pct}% chance — drawn from ${cutoff} word${cutoff!==1?'s':''} in the pool</div>
+      <div style="font-size:12px;color:var(--subtle);margin-top:2px">This word had a ${pct}% chance, drawn from ${cutoff} word${cutoff!==1?'s':''} in the pool</div>
     </div>
   `;
 
