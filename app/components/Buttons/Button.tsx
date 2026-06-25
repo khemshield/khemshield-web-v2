@@ -32,7 +32,7 @@ const Button = ({
   shouldDisable,
   ...rest
 }: Readonly<Props>) => {
-  const baseStyle = `${styles} inline-flex items-center justify-center gap-2 ${
+  const baseStyle = `${styles} inline-flex items-center justify-center gap-2 whitespace-nowrap ${
     full ? "w-full" : ""
   } py-2.5 px-5 rounded-full font-semibold
   transition-all duration-200

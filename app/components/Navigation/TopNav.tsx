@@ -11,8 +11,8 @@ const TopNav = () => {
       <div className="mx-auto flex h-20 max-w-[1180px] items-center justify-between gap-6 px-6 lg:px-12">
         <Logo withText />
         <NavItems />
-        <div className="flex items-center gap-4">
-          <div className="hidden xs:block">
+        <div className="flex shrink-0 items-center gap-4">
+          <div className="hidden sm:block">
             <RequestQuoteButton />
           </div>
           <MenuTrigger>
