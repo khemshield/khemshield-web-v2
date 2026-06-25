@@ -42,6 +42,19 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "temperature-and-top-p",
+    title: "Temperature & Top-p, Explained",
+    excerpt:
+      "Two dials control how creative or predictable an AI's writing is. Play with the interactive sliders to see exactly how temperature and top-p reshape what the model says.",
+    type: "custom",
+    href: "/blog-posts/temperature-and-top-p.html",
+    date: "2026-06-25",
+    readTime: "8 min read",
+    tags: ["AI", "Parameters", "Interactive"],
+    author: "Khemshield",
+    accent: "from-[#f97316] via-[#fb923c] to-[#6366f1]",
+  },
+  {
     slug: "how-ai-works",
     title: "How AI Actually Works",
     excerpt:
@@ -53,19 +66,6 @@ export const blogPosts: BlogPost[] = [
     tags: ["AI", "Fundamentals", "Explainer"],
     author: "Khemshield",
     accent: "from-[#a78bfa] via-[#6366f1] to-[#2dd4bf]",
-  },
-  {
-    slug: "temperature-and-top-p",
-    title: "Temperature & Top-p, Explained",
-    excerpt:
-      "Two dials control how creative or predictable an AI's writing is. Play with the interactive sliders to see exactly how temperature and top-p reshape what the model says.",
-    type: "custom",
-    href: "/blog-posts/temperature-and-top-p.html",
-    date: "2026-06-22",
-    readTime: "8 min read",
-    tags: ["AI", "Parameters", "Interactive"],
-    author: "Khemshield",
-    accent: "from-[#f97316] via-[#fb923c] to-[#6366f1]",
   },
   // ─────────────────────────────────────────────────────────────────────────
   // Example of a Markdown article. Edit content/blog/getting-started-with-llms.md,
