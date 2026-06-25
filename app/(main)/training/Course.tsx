@@ -1,6 +1,5 @@
 import Heading from "@/app/components/Generics/Heading";
 import Text from "@/app/components/Generics/Text";
-import BaseSpacing from "@/app/components/Spacing/BaseSpacing";
 import { formatNumber } from "@/app/lib/formatNumber";
 import { Star1 } from "iconsax-react";
 import Image, { StaticImageData } from "next/image";
@@ -13,6 +12,9 @@ interface Props {
   name: string;
   rating: number;
   category: string;
+  tagline?: string;
+  level?: string;
+  durationWeeks?: number;
 }
 
 const Course = ({
@@ -22,6 +24,9 @@ const Course = ({
   rating,
   image,
   category,
+  tagline,
+  level,
+  durationWeeks,
 }: Props) => {
   return (
     <Link href={`/training/${slug}`} className="group block h-full">
@@ -37,23 +42,51 @@ const Course = ({
             className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
-        <div className="flex flex-1 flex-col px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="bg-primary-light px-[6px] py-1">
-              <Text color="primary">{category}</Text>
-            </div>
-            <Heading variant="h4">{formatNumber(price)}</Heading>
+        <div className="flex flex-1 flex-col px-6 py-5">
+          <div className="self-start rounded-full bg-primary-light px-3 py-1">
+            <Text color="primary" variant="semibold" type="caption">
+              {category}
+            </Text>
           </div>
-          <BaseSpacing />
-          <Heading variant="h4">
+
+          <Heading variant="h4" styles="mt-3">
             <span className="transition-colors group-hover:text-primary-normal">
               {name}
             </span>
           </Heading>
-          <BaseSpacing />
-          <div className="mt-auto flex items-center gap-1 pt-2">
-            <Star1 size={16} variant="Bold" className="text-orange-400" />
-            <span>{rating}</span>
+
+          {tagline && (
+            <Text color="gray" styles="mt-2 line-clamp-2 text-sm">
+              {tagline}
+            </Text>
+          )}
+
+          <div className="mt-auto pt-4">
+            <div className="flex items-center gap-2 text-sm text-[#8C94A3]">
+              <span className="flex items-center gap-1 font-medium text-secondary-normal">
+                <Star1 size={15} variant="Bold" className="text-orange-400" />
+                {rating}
+              </span>
+              {durationWeeks && (
+                <>
+                  <span aria-hidden>&middot;</span>
+                  <span>{durationWeeks} weeks</span>
+                </>
+              )}
+            </div>
+
+            <div className="mt-2 flex items-center justify-between">
+              {level ? (
+                <Text color="gray" styles="text-sm">
+                  {level}
+                </Text>
+              ) : (
+                <span />
+              )}
+              <Text variant="bold" styles="text-lg">
+                {formatNumber(price)}
+              </Text>
+            </div>
           </div>
         </div>
       </article>

@@ -371,6 +371,9 @@ const TrainingDetailPage = ({ params }: Params) => {
                     price={rc.price}
                     name={rc.name}
                     rating={rc.rating}
+                    tagline={rc.tagline}
+                    level={rc.level}
+                    durationWeeks={rc.durationWeeks}
                   />
                 </li>
               ))}

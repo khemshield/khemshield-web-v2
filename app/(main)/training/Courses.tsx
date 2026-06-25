@@ -66,6 +66,9 @@ const Courses = () => {
                 price={course.price}
                 name={course.name}
                 rating={course.rating}
+                tagline={course.tagline}
+                level={course.level}
+                durationWeeks={course.durationWeeks}
               />
             </li>
           ))}
