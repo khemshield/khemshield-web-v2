@@ -9,7 +9,7 @@ import data_science from "@/public/assets/images/training/data-science.png";
 import frontend from "@/public/assets/images/training/frontend.jpg";
 import fullstack from "@/public/assets/images/training/fullstack.png";
 import infosec from "@/public/assets/images/training/infosec.jpg";
-import javascript from "@/public/assets/images/training/javascript.webp";
+import javascript from "@/public/assets/images/training/javascript.png";
 import mobile_app from "@/public/assets/images/training/mobile_app.png";
 import python from "@/public/assets/images/training/python.png";
 

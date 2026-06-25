@@ -34,6 +34,15 @@ export const generateMetadata = ({ params }: Params): Metadata => {
   const course = getCourseBySlug(params.slug);
   if (!course) return { title: "Training" };
   const description = course.tagline ?? course.overview;
+  // The course's own photo is the social-share image. metadataBase (set in the
+  // root layout) turns the static `.src` path into an absolute URL, and the
+  // width/height let scrapers like WhatsApp render a large preview card.
+  const image = {
+    url: course.image.src,
+    width: course.image.width,
+    height: course.image.height,
+    alt: course.name,
+  };
   return {
     title: { absolute: `${course.name} | Khemshield Training` },
     description,
@@ -42,6 +51,13 @@ export const generateMetadata = ({ params }: Params): Metadata => {
       title: `${course.name} | Khemshield Training`,
       description,
       url: `/training/${course.slug}`,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${course.name} | Khemshield Training`,
+      description,
+      images: [image],
     },
   };
 };
