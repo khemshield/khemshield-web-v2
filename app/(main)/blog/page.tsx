@@ -6,7 +6,7 @@ import BlogCard from "./BlogCard";
 import { blogPosts } from "./posts";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Insights",
   description:
     "Learn new skills with clear, hands-on guides and interactive explainers from the Khemshield team.",
   alternates: { canonical: "/blog" },
@@ -18,7 +18,7 @@ const BlogPage = () => {
       {/* Hero */}
       <header className="mx-auto max-w-2xl text-center">
         <Text color="primary" styles="font-semibold">
-          The Khemshield Blog
+          Khemshield Insights
         </Text>
         <div className="mt-3">
           <Heading variant="h1">Learn a new skill, one read at a time</Heading>

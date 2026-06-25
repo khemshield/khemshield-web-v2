@@ -6,13 +6,13 @@ export const runtime = "edge";
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
-export const alt = "Khemshield Blog";
+export const alt = "Khemshield Insights";
 
 // Per-article social-share image showing the post title.
 export default function Image({ params }: { params: { slug: string } }) {
   const post = getPostBySlug(params.slug);
   return renderOgImage({
-    eyebrow: "Khemshield Blog",
-    title: post?.title ?? "Khemshield Blog",
+    eyebrow: "Khemshield Insights",
+    title: post?.title ?? "Khemshield Insights",
   });
 }

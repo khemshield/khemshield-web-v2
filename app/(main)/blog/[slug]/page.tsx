@@ -37,7 +37,7 @@ export const generateStaticParams = () =>
 
 export const generateMetadata = ({ params }: Params): Metadata => {
   const post = getPostBySlug(params.slug);
-  if (!post) return { title: "Blog" };
+  if (!post) return { title: "Insights" };
   return {
     title: post.title,
     description: post.excerpt,

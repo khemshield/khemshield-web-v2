@@ -37,7 +37,7 @@ const navsItems = [
         href: "/event",
       },
       {
-        text: "Blog",
+        text: "Insights",
         href: "/blog",
       },
       {

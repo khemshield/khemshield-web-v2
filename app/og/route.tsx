@@ -12,6 +12,6 @@ export const runtime = "edge";
 export function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const title = searchParams.get("title") ?? "Khemshield";
-  const eyebrow = searchParams.get("eyebrow") ?? "Khemshield Blog";
+  const eyebrow = searchParams.get("eyebrow") ?? "Khemshield Insights";
   return renderOgImage({ title, eyebrow });
 }

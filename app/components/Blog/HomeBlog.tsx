@@ -12,7 +12,7 @@ const HomeBlog = () => {
 
   return (
     <Wrapper>
-      <HeaderContent heading="Learn something new from our blog" center>
+      <HeaderContent heading="Learn something new from Khemshield Insights" center>
         Practical guides and interactive explainers to help you build real
         skills, from how AI works to the tools shaping the future.
       </HeaderContent>

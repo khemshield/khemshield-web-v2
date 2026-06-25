@@ -17,7 +17,7 @@ const items = [
     icon: undefined,
   },
   {
-    text: "Blog",
+    text: "Insights",
     href: "/blog",
     icon: undefined,
   },
