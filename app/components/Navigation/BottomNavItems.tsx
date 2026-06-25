@@ -1,4 +1,4 @@
-import { Book, CallCalling, DocumentText, Home, Share } from "iconsax-react";
+import { Book, Briefcase, CallCalling, Home } from "iconsax-react";
 import NavLink from "./NavLink";
 
 const bottomNavsItems = [
@@ -8,7 +8,7 @@ const bottomNavsItems = [
     href: "/",
   },
   {
-    icon: <Share />,
+    icon: <Briefcase />,
     text: "Service",
     href: "/service",
   },
@@ -16,11 +16,6 @@ const bottomNavsItems = [
     icon: <Book variant="Bulk" />,
     text: "Training",
     href: "/training",
-  },
-  {
-    icon: <DocumentText />,
-    text: "Blog",
-    href: "/blog",
   },
   {
     icon: <CallCalling />,
