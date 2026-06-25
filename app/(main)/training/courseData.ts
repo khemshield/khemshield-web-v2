@@ -119,7 +119,7 @@ export const courses: Course[] = [
       "Git / GitHub",
     ],
     certifications: [
-      "Certifications are optional. The hands-on labs and the portfolio you build carry the most weight with employers.",
+      "The curriculum aligns with industry certifications such as CompTIA Security+, but the hands-on labs and the portfolio you build carry the most weight with employers.",
     ],
     curriculum: [
       {
