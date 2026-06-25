@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Star1, TickCircle, Clock, Profile2User, ArrowRight } from "iconsax-react";
+import { Star1, TickCircle, Clock, ArrowRight } from "iconsax-react";
 
 import Heading from "@/app/components/Generics/Heading";
 import Text from "@/app/components/Generics/Text";
@@ -116,10 +116,6 @@ const TrainingDetailPage = ({ params }: Params) => {
               <span className="flex items-center gap-1.5">
                 <Star1 size={15} variant="Bold" className="text-orange-400" />
                 {c.rating} rating
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Profile2User size={15} />
-                {formatNumber(c.reviewCount, { decimal: true })} students
               </span>
               {c.durationWeeks && (
                 <span className="flex items-center gap-1.5">
@@ -375,7 +371,6 @@ const TrainingDetailPage = ({ params }: Params) => {
                     price={rc.price}
                     name={rc.name}
                     rating={rc.rating}
-                    review_count={rc.reviewCount}
                   />
                 </li>
               ))}

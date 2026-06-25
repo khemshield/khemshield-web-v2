@@ -66,7 +66,6 @@ const Courses = () => {
                 price={course.price}
                 name={course.name}
                 rating={course.rating}
-                review_count={course.reviewCount}
               />
             </li>
           ))}
