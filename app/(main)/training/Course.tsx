@@ -2,19 +2,19 @@ import Heading from "@/app/components/Generics/Heading";
 import Text from "@/app/components/Generics/Text";
 import { formatNumber } from "@/app/lib/formatNumber";
 import { Star1 } from "iconsax-react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
   slug: string;
-  image: StaticImageData;
+  image: string;
   price: number;
   name: string;
   rating: number;
   category: string;
   tagline?: string;
   level?: string;
-  durationWeeks?: number;
+  duration?: string;
 }
 
 const Course = ({
@@ -26,7 +26,7 @@ const Course = ({
   category,
   tagline,
   level,
-  durationWeeks,
+  duration,
 }: Props) => {
   return (
     <Link href={`/training/${slug}`} className="group block h-full">
@@ -35,11 +35,13 @@ const Course = ({
         shadow-khemshadow ring-1 ring-secondary-light/60 transition-all duration-300
         hover:-translate-y-1 hover:shadow-[0_14px_46px_0_rgba(0,0,0,0.10)] lg:max-w-[400px]"
       >
-        <div className="overflow-hidden">
+        <div className="relative h-56 w-full overflow-hidden">
           <Image
             src={image}
             alt={name}
-            className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            fill
+            sizes="(max-width: 1024px) 100vw, 400px"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
         <div className="flex flex-1 flex-col px-6 py-5">
@@ -67,10 +69,10 @@ const Course = ({
                 <Star1 size={15} variant="Bold" className="text-orange-400" />
                 {rating}
               </span>
-              {durationWeeks && (
+              {duration && (
                 <>
                   <span aria-hidden>&middot;</span>
-                  <span>{durationWeeks} weeks</span>
+                  <span>{duration}</span>
                 </>
               )}
             </div>

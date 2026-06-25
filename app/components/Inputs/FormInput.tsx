@@ -16,6 +16,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
     | "address_select"
     | "date"
     | "zipcode";
+  error?: string;
 }
 
 const FormInput = ({ variant, ...rest }: Props) => {

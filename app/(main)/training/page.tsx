@@ -4,6 +4,7 @@ import HeaderContent from "@/app/components/Generics/HeaderContent";
 import Wrapper from "@/app/components/Generics/Wrapper";
 import ContentSpacing from "@/app/components/Spacing/ContentSpacing";
 import Courses from "./Courses";
+import { getCourses } from "./course.api";
 
 export const metadata: Metadata = {
   title: "Training Programs",
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/training" },
 };
 
-const TraininPage = () => {
+const TraininPage = async () => {
+  const courses = await getCourses();
+
   return (
     <section>
       <Breadcrumb crumbs={[{ href: "", text: "Training Program" }]} />
@@ -29,7 +32,7 @@ const TraininPage = () => {
           threat defense to building AI-powered and agentic systems.
         </HeaderContent>
         <ContentSpacing />
-        <Courses />
+        <Courses allCourses={courses} />
       </Wrapper>
     </section>
   );

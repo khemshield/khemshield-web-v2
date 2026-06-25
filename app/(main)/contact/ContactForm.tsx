@@ -11,9 +11,10 @@ import ContactFormHeader from "./ContactFormHeader";
 import { useFormState } from "react-dom";
 import { contactAction } from "@/app/actions/contact";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 import FormSubmitButton from "@/app/components/Buttons/FormSubmitButton";
+import FieldError from "@/app/components/Inputs/FieldError";
 
 const ContactForm = () => {
   const router = useRouter();
@@ -22,33 +23,20 @@ const ContactForm = () => {
     message: "",
   });
 
-  // Local state to manually reset the message
-  const [hasError, setHasError] = useState(false);
-
-  // Local state to manually reset the message
   useEffect(() => {
-    if (state?.message) {
-      // Safely check if state and message exist
-      if (state.message.toLowerCase() !== "ok") {
-        toast.error(state.message, { position: "top-center" });
-        setHasError(true);
-      } else if (state.message.toLowerCase() === "ok") {
-        toast.success(
-          `Thank you for reaching out! We've received your message and will get back to you shortly.`,
-          { position: "top-center", duration: 5000 },
-        );
-        router.replace("/");
-      }
+    if (state?.message?.toLowerCase() === "ok") {
+      toast.success(
+        `Thank you for reaching out! We've received your message and will get back to you shortly.`,
+        { position: "top-center", duration: 5000 },
+      );
+      router.replace("/");
     }
   }, [state?.message, router]);
 
-  useEffect(() => {
-    if (hasError) {
-      // Reset the message after showing the error
-      if (state?.message) state.message = "";
-      setHasError(false);
-    }
-  }, [hasError, state]);
+  const formError =
+    state?.message && state.message.toLowerCase() !== "ok"
+      ? state.message
+      : "";
 
   return (
     <section
@@ -58,21 +46,37 @@ const ContactForm = () => {
       <ContactFormHeader />
       <ContentSpacing />
       <form action={contactActionForm}>
+        {formError && (
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+            {formError}
+          </div>
+        )}
         <Label label="Full Name" labelFor="name">
           <FormInput
             variant="name"
             placeholder="Enter your full name"
             id="name"
             name="fullName"
+            error={state.errors?.fullName}
           />
         </Label>
         <BaseSpacing />
         <Label label="Email Address" labelFor="email">
-          <FormInput variant="email" id="email" name="email" />
+          <FormInput
+            variant="email"
+            id="email"
+            name="email"
+            error={state.errors?.email}
+          />
         </Label>
         <BaseSpacing />
         <Label label="Phone Number" labelFor="phone">
-          <FormInput variant="phone" id="phone" name="phone" />
+          <FormInput
+            variant="phone"
+            id="phone"
+            name="phone"
+            error={state.errors?.phone}
+          />
         </Label>
         <BaseSpacing />
         <Label label="What Can we help you with" labelFor="helpwith">
@@ -98,10 +102,12 @@ const ContactForm = () => {
               },
             ]}
           />
+          <FieldError message={state.errors?.helpwith} />
         </Label>
         <BaseSpacing />
         <Label label="Send Us a Message" labelFor="description">
           <TextArea placeholder="Write Your Message" name="message" />
+          <FieldError message={state.errors?.message} />
         </Label>
         <ContentSpacing />
         <FormSubmitButton>Send</FormSubmitButton>

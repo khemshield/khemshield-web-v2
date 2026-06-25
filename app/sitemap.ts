@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { blogPosts } from "./(main)/blog/posts";
-import { courses } from "./(main)/training/courseData";
+import { getCourseSlugs } from "./(main)/training/course.api";
 import { eventSlug } from "./(main)/event/eventSlug";
 
 const BASE_URL = "https://www.khemshield.com";
@@ -10,8 +10,9 @@ const BASE_URL = "https://www.khemshield.com";
  * Placeholder/noindex pages (/project, /consultation, /request/new) are
  * intentionally excluded so they are not advertised for crawling.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const courseSlugs = await getCourseSlugs();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/`, lastModified: now, priority: 1 },
@@ -31,8 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const trainingRoutes: MetadataRoute.Sitemap = courses.map((course) => ({
-    url: `${BASE_URL}/training/${course.slug}`,
+  const trainingRoutes: MetadataRoute.Sitemap = courseSlugs.map((slug) => ({
+    url: `${BASE_URL}/training/${slug}`,
     lastModified: now,
     priority: 0.7,
   }));

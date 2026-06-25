@@ -5,9 +5,9 @@ import { useState } from "react";
 import ContentSpacing from "@/app/components/Spacing/ContentSpacing";
 import Course from "./Course";
 import SearchFilter from "./SearchFilter";
-import { courses as allCourses } from "./courseData";
+import type { CourseView } from "./course.api";
 
-const Courses = () => {
+const Courses = ({ allCourses }: { allCourses: CourseView[] }) => {
   const [courses, setCourses] = useState(allCourses);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All Courses");
@@ -68,7 +68,7 @@ const Courses = () => {
                 rating={course.rating}
                 tagline={course.tagline}
                 level={course.level}
-                durationWeeks={course.durationWeeks}
+                duration={course.duration}
               />
             </li>
           ))}

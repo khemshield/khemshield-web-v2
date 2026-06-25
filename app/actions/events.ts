@@ -1,11 +1,14 @@
 "use server";
 
 import Joi from "joi";
+import { toFieldErrors, type FieldErrors } from "@/app/lib/formErrors";
+
+export type EventRegisterState = { message: string; errors?: FieldErrors };
 
 export const eventRegisterAction = async (
-  prevState: { message: string },
+  prevState: EventRegisterState,
   formData: FormData
-) => {
+): Promise<EventRegisterState> => {
   // Validate Inputs
   const validationObj = Joi.object({
     email: Joi.string().email(),
@@ -31,22 +34,22 @@ export const eventRegisterAction = async (
   //   console.log("WE are herer", fr);
   //   console.log("RERSPONSE", re);
 
-  const { value, error } = validationObj.validate({
-    email: formData.get("email"),
-    phone: formData.get("phone"),
-    firstName: formData.get("firstName"),
-    lastName: formData.get("lastName"),
-    address: formData.get("address"),
-    state: formData.get("state"),
-    // city: formData.get("city"),
-    event: "1",
-  });
+  const { value, error } = validationObj.validate(
+    {
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      address: formData.get("address"),
+      state: formData.get("state"),
+      // city: formData.get("city"),
+      event: "1",
+    },
+    { abortEarly: false }
+  );
 
   if (error) {
-    console.log("ERROR", error);
-    return {
-      message: error.message,
-    };
+    return { message: "", errors: toFieldErrors(error) };
   }
 
   // Create graphql mutation and send request

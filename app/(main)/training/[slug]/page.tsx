@@ -9,12 +9,14 @@ import Text from "@/app/components/Generics/Text";
 import Button from "@/app/components/Buttons/Button";
 import { formatNumber } from "@/app/lib/formatNumber";
 import Course from "../Course";
+import CurriculumAccordion from "./CurriculumAccordion";
 import {
-  courses,
-  getCourseBySlug,
+  getCourse,
+  getCourses,
+  getCourseSlugs,
   getRelatedCourses,
-  type Course as CourseType,
-} from "../courseData";
+  type CourseView as CourseType,
+} from "../course.api";
 
 interface Params {
   params: { slug: string };
@@ -27,20 +29,22 @@ const enrollHref = (courseName: string) =>
     `Hi Khemshield, I'd like to enroll in the ${courseName} course.`
   )}`;
 
-export const generateStaticParams = () =>
-  courses.map((c) => ({ slug: c.slug }));
+export const generateStaticParams = async () => {
+  const slugs = await getCourseSlugs();
+  return slugs.map((slug) => ({ slug }));
+};
 
-export const generateMetadata = ({ params }: Params): Metadata => {
-  const course = getCourseBySlug(params.slug);
+export const generateMetadata = async ({
+  params,
+}: Params): Promise<Metadata> => {
+  const course = await getCourse(params.slug);
   if (!course) return { title: "Training" };
   const description = course.tagline ?? course.overview;
   // The course's own photo is the social-share image. metadataBase (set in the
-  // root layout) turns the static `.src` path into an absolute URL, and the
-  // width/height let scrapers like WhatsApp render a large preview card.
+  // root layout) turns the relative path into an absolute URL so scrapers like
+  // WhatsApp can render a large preview card.
   const image = {
-    url: course.image.src,
-    width: course.image.width,
-    height: course.image.height,
+    url: course.image,
     alt: course.name,
   };
   return {
@@ -68,12 +72,13 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
   </p>
 );
 
-const TrainingDetailPage = ({ params }: Params) => {
-  const course = getCourseBySlug(params.slug);
+const TrainingDetailPage = async ({ params }: Params) => {
+  const course = await getCourse(params.slug);
   if (!course) notFound();
 
   const c: CourseType = course;
-  const related = getRelatedCourses(c);
+  const allCourses = await getCourses();
+  const related = getRelatedCourses(allCourses, c);
 
   return (
     <article>
@@ -117,10 +122,10 @@ const TrainingDetailPage = ({ params }: Params) => {
                 <Star1 size={15} variant="Bold" className="text-orange-400" />
                 {c.rating} rating
               </span>
-              {c.durationWeeks && (
+              {c.duration && (
                 <span className="flex items-center gap-1.5">
                   <Clock size={15} />
-                  {c.durationWeeks} weeks
+                  {c.duration}
                 </span>
               )}
               {c.level && <span>{c.level}</span>}
@@ -129,16 +134,16 @@ const TrainingDetailPage = ({ params }: Params) => {
             <div className="mt-8 flex flex-col gap-4 xs:flex-row">
               <Button
                 elementType="link"
-                href={enrollHref(c.name)}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/training/${c.slug}/enroll`}
                 variant="primary"
               >
                 Enroll now
               </Button>
               <Button
                 elementType="link"
-                href="/contact"
+                href={enrollHref(c.name)}
+                target="_blank"
+                rel="noopener noreferrer"
                 variant="border"
                 styles="!border-white/30 !text-white hover:!border-white"
               >
@@ -147,11 +152,13 @@ const TrainingDetailPage = ({ params }: Params) => {
             </div>
           </div>
 
-          <div className="relative">
+          <div className="relative h-[260px] w-full overflow-hidden rounded-2xl shadow-[0_30px_70px_rgba(0,0,0,0.45)] lg:h-[360px]">
             <Image
               src={c.image}
               alt={c.name}
-              className="h-[260px] w-full rounded-2xl object-cover shadow-[0_30px_70px_rgba(0,0,0,0.45)] lg:h-[360px]"
+              fill
+              sizes="(max-width: 1024px) 100vw, 520px"
+              className="object-cover"
             />
           </div>
         </div>
@@ -212,53 +219,7 @@ const TrainingDetailPage = ({ params }: Params) => {
                   Your step-by-step learning path
                 </Heading>
               </div>
-              <ol className="mt-7 flex flex-col gap-4">
-                {c.curriculum.map((phase, i) => (
-                  <li
-                    key={phase.title}
-                    className="rounded-2xl border border-black/[0.08] bg-white p-6 shadow-khemshadow"
-                  >
-                    <div className="flex items-start gap-4">
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-light font-mono text-sm font-semibold text-primary-normal">
-                        {(i + 1).toString().padStart(2, "0")}
-                      </span>
-                      <div className="min-w-0">
-                        <Heading variant="h4" styles="font-display">
-                          {phase.title}
-                        </Heading>
-                        {phase.subtitle && (
-                          <p className="mt-1 text-sm text-[#8C94A3]">
-                            {phase.subtitle}
-                          </p>
-                        )}
-                        <ul className="mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2">
-                          {phase.topics.map((t) => (
-                            <li
-                              key={t}
-                              className="flex gap-2 text-sm text-secondary-normal"
-                            >
-                              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary-normal" />
-                              {t}
-                            </li>
-                          ))}
-                        </ul>
-                        {phase.tools && phase.tools.length > 0 && (
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            {phase.tools.map((tool) => (
-                              <span
-                                key={tool}
-                                className="rounded-full bg-support px-2.5 py-1 font-mono text-[0.66rem] text-secondary-normal"
-                              >
-                                {tool}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <CurriculumAccordion phases={c.curriculum} />
             </section>
           )}
 
@@ -304,11 +265,11 @@ const TrainingDetailPage = ({ params }: Params) => {
                     </dd>
                   </div>
                 )}
-                {c.durationWeeks && (
+                {c.duration && (
                   <div className="flex justify-between">
                     <dt className="text-[#8C94A3]">Duration</dt>
                     <dd className="font-medium text-secondary-normal">
-                      {c.durationWeeks} weeks
+                      {c.duration}
                     </dd>
                   </div>
                 )}
@@ -331,9 +292,7 @@ const TrainingDetailPage = ({ params }: Params) => {
               <div className="mt-6">
                 <Button
                   elementType="link"
-                  href={enrollHref(c.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/training/${c.slug}/enroll`}
                   variant="primary"
                   full
                 >
@@ -373,7 +332,7 @@ const TrainingDetailPage = ({ params }: Params) => {
                     rating={rc.rating}
                     tagline={rc.tagline}
                     level={rc.level}
-                    durationWeeks={rc.durationWeeks}
+                    duration={rc.duration}
                   />
                 </li>
               ))}
@@ -396,9 +355,7 @@ const TrainingDetailPage = ({ params }: Params) => {
           <div className="mt-8 flex justify-center gap-4">
             <Button
               elementType="link"
-              href={enrollHref(c.name)}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/training/${c.slug}/enroll`}
               variant="primary"
             >
               Enroll now
