@@ -48,21 +48,9 @@ export const requestQuoteAction = async (
     return { message: "", errors: toFieldErrors(error) };
   }
 
-  // Fold the quote-specific fields into the contact message so the team
-  // notification carries everything.
-  const message = [
-    "[Project / quote request]",
-    value.description,
-    value.preferredDate ? `Preferred start date: ${value.preferredDate}` : null,
-    value.budget ? `Budget range: ${value.budget}` : null,
-    value.company ? `Company: ${value.company}` : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
   const query = `
-    mutation NewContact($input: ContactInput!) {
-      newContact(contactInput: $input) { _id }
+    mutation CreateQuoteRequest($input: QuoteRequestInput!) {
+      createQuoteRequest(input: $input) { _id }
     }
   `;
 
@@ -79,8 +67,11 @@ export const requestQuoteAction = async (
             fullName: value.fullName,
             email: value.email,
             phone: value.phone,
-            helpwith: value.service,
-            message,
+            service: value.service,
+            description: value.description,
+            preferredDate: value.preferredDate || undefined,
+            budget: value.budget || undefined,
+            company: value.company || undefined,
           },
         },
       }),
