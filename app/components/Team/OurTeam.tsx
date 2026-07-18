@@ -10,9 +10,9 @@ import ContentSpacing from "../Spacing/ContentSpacing";
 
 const teams = [
   {
-    image: muazat,
-    name: "Muazat Kabarat",
-    role: "Business Development Manager",
+    image: placeholder,
+    name: "Daniella Cutie",
+    role: "Lead Software Engineer",
   },
   {
     image: khem,
@@ -20,9 +20,9 @@ const teams = [
     role: "Cybersecurity & AI Engineer",
   },
   {
-    image: placeholder,
-    name: "Daniella Cutie",
-    role: "Lead Software Engineer",
+    image: muazat,
+    name: "Muazat Kabarat",
+    role: "Business Development Manager",
   },
 ];
 const OurTeam = () => {
