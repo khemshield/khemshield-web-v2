@@ -2,7 +2,6 @@ import HeaderContent from "../Generics/HeaderContent";
 import Text from "../Generics/Text";
 import BaseSpacing from "../Spacing/BaseSpacing";
 
-import patrick from "@/public/assets/images/team/team_1.jpeg";
 import khem from "@/public/assets/images/team/team_2.jpeg";
 import placeholder from "@/public/assets/images/team/team_3.jpeg";
 import muazat from "@/public/assets/images/team/team_4.jpg";
@@ -11,11 +10,6 @@ import ContentSpacing from "../Spacing/ContentSpacing";
 
 const teams = [
   {
-    image: patrick,
-    name: "Patrick Chukwudifu",
-    role: "Lead Product Designer",
-  },
-  {
     image: muazat,
     name: "Muazat Kabarat",
     role: "Business Development Manager",
@@ -23,7 +17,7 @@ const teams = [
   {
     image: khem,
     name: "Abdul Kareem Adamu",
-    role: "Cyber Security Engineer",
+    role: "Cybersecurity & AI Engineer",
   },
   {
     image: placeholder,
