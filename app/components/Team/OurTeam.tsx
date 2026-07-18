@@ -30,10 +30,10 @@ const OurTeam = () => {
     <section>
       <HeaderContent heading="Meet the Team" center>
         <Text>
-          Our KhemShield team offers cybersecurity and software engineering
-          expertise, plus training programs for security and development. We
-          focus on innovation and practical solutions to help you thrive in
-          technology&apos;s ever-evolving world.
+          We&apos;re the engineers and builders behind KhemShield&apos;s
+          cybersecurity, AI, and software work. We stay hands-on, from securing
+          systems and shipping products to training the next generation of
+          developers and security professionals.
         </Text>
       </HeaderContent>
       <ContentSpacing />
