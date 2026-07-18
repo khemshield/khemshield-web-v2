@@ -40,7 +40,7 @@ const DropdownMenu = ({ items, onSelectItem }: Readonly<Props>) => {
           openMenu
             ? "max-h-52 overflow-y-scroll has-scrollbar"
             : "max-h-0 h-0 overflow-hidden"
-        } bg-white shadow-khemshadow absolute min-w-full my-1
+        } bg-white shadow-khemshadow absolute z-50 min-w-full my-1
           duration-200
           lg:min-w-max `}
       >
