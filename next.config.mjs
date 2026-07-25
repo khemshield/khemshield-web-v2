@@ -9,6 +9,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "**.amazonaws.com",
       },
+      // Testimonial photos submitted through /review/[token] are uploaded to
+      // Cloudinary and stored as absolute delivery URLs.
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };

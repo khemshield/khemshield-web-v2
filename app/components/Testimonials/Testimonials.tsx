@@ -1,78 +1,51 @@
-"use client";
-
-import { testimonialsData } from "@/app/data/testimonials";
-import { useRef, useState } from "react";
+import connectDB from "@/app/lib/db/connect";
+import { listPublishedTestimonials } from "@/app/lib/reviews/review.service";
+import Heading from "../Generics/Heading";
+import Text from "../Generics/Text";
 import Wrapper from "../Generics/Wrapper";
 import ContentSpacing from "../Spacing/ContentSpacing";
 import Testimonial from "./Testimonial";
+import TestimonialsCarousel from "./TestimonialsCarousel";
 
-const Testimonials = () => {
-  const testimonialsRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+/**
+ * Published client reviews.
+ *
+ * Reads from the database rather than a static file, so approving a review in
+ * /studio/reviews puts it on the site. Renders nothing at all when there is
+ * nothing published, which is better than an empty carousel with dots.
+ *
+ * TEMPORARY data source: goes through app/lib/reviews/ while the Render backend
+ * is down. When the backend is back this becomes a GraphQL query and only this
+ * component's data-fetching line changes.
+ */
+const Testimonials = async () => {
+  let testimonials;
 
-  const handleScroll = () => {
-    const container = testimonialsRef.current;
-    if (!container) return;
-    // Find the slide whose center is closest to the container's center.
-    const containerRect = container.getBoundingClientRect();
-    const containerCenter = containerRect.left + containerRect.width / 2;
-    let closest = 0;
-    let closestDistance = Infinity;
-    Array.from(container.children).forEach((child, i) => {
-      const childRect = child.getBoundingClientRect();
-      const childCenter = childRect.left + childRect.width / 2;
-      const distance = Math.abs(childCenter - containerCenter);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closest = i;
-      }
-    });
-    setActiveIndex(closest);
-  };
+  try {
+    await connectDB();
+    testimonials = await listPublishedTestimonials();
+  } catch (err) {
+    // A database problem should not take the homepage down with it. Log and drop
+    // the section, the rest of the page is unaffected.
+    console.error("[testimonials] could not load published reviews:", err);
+    return null;
+  }
 
-  const scrollToIndex = (index: number) => {
-    const container = testimonialsRef.current;
-    const target = container?.children[index] as HTMLElement | undefined;
-    if (container && target) {
-      const delta =
-        target.getBoundingClientRect().left -
-        container.getBoundingClientRect().left;
-      container.scrollTo({
-        left: container.scrollLeft + delta,
-        behavior: "smooth",
-      });
-    }
-  };
+  if (testimonials.length === 0) return null;
 
   return (
     <Wrapper>
-      <section
-        onScroll={handleScroll}
-        ref={testimonialsRef}
-        className=" flex overflow-x-auto has-hidden-scrollbar
-        scroll-snap-type-inline-mandatory overscroll-behavior-inline-contain"
-      >
-        {testimonialsData.map((testimonial) => (
-          <Testimonial key={testimonial.user.name} testimonial={testimonial} />
-        ))}
-      </section>
+      <Heading variant="h2">What our clients say</Heading>
+      <Text color="gray" styles="mt-2">
+        From the businesses we build for and the people we train.
+      </Text>
       <ContentSpacing />
-      <div className=" w-max m-auto flex gap-2">
-        {testimonialsData.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={`Go to testimonial ${i + 1}`}
-            aria-current={activeIndex === i}
-            onClick={() => scrollToIndex(i)}
-            className={`${
-              activeIndex === i
-                ? "bg-primary-normal w-8 h-3"
-                : "bg-primary-light  w-3 h-3"
-            }  rounded-lg duration-200`}
-          ></button>
+
+      <TestimonialsCarousel count={testimonials.length}>
+        {testimonials.map((testimonial) => (
+          <Testimonial key={testimonial.id} testimonial={testimonial} />
         ))}
-      </div>
+      </TestimonialsCarousel>
     </Wrapper>
   );
 };

@@ -18,8 +18,8 @@ const SelectInput = ({ options, ...rest }: Props) => {
       rounded-lg text-secondary-normal px-4"
       >
         {options.map(({ value, label }) => (
-          <option key={label} value={value}>
-            {value}
+          <option key={value} value={value}>
+            {label}
           </option>
         ))}
       </select>

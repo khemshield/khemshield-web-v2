@@ -16,6 +16,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
+// The testimonials section reads from the database, so the page is regenerated
+// hourly rather than on every request. Publishing a review in /studio/reviews
+// calls revalidatePath("/"), so approvals appear immediately and this interval is
+// only a backstop.
+export const revalidate = 3600;
+
 export default function HomePage() {
   return (
     <main>
