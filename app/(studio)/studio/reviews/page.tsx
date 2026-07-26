@@ -79,9 +79,14 @@ const ConnectionProblem = ({ reason }: { reason: string }) => (
     <p className="mt-4 text-sm text-red-700">Check, in this order:</p>
     <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-red-700">
       <li>
-        <code>MONGODB_URL</code> is set in this environment, and its database
-        name is <code>khemshield_db</code> in production (not{" "}
-        <code>khemshield_db_dev</code>).
+        <code>MONGODB_URL</code> starts with <code>mongodb+srv://</code> with no
+        surrounding quotes and no <code>MONGODB_URL=</code> prefix. Hosting
+        dashboards store the value literally, unlike a <code>.env</code> file, so
+        quotes copied from one become part of the string.
+      </li>
+      <li>
+        Its database name is <code>khemshield_db</code> in production, not{" "}
+        <code>khemshield_db_dev</code>.
       </li>
       <li>
         MongoDB Atlas Network Access allows this host. Serverless IPs are

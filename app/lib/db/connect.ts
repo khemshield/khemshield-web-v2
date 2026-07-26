@@ -2,6 +2,8 @@ import "server-only";
 
 import mongoose, { type Mongoose } from "mongoose";
 
+import { normaliseMongoUrl } from "./normaliseMongoUrl";
+
 /**
  * Cached Mongoose connection.
  *
@@ -37,12 +39,14 @@ globalForMongoose.__khemshieldMongoose = cache;
 const connectDB = async (): Promise<Mongoose> => {
   if (cache.conn) return cache.conn;
 
-  const url = process.env.MONGODB_URL;
-  if (!url) {
+  const raw = process.env.MONGODB_URL;
+  if (!raw) {
     throw new Error(
-      "MONGODB_URL is not set. Copy it from backend/.env into web/.env.local."
+      "MONGODB_URL is not set. Copy it from backend/.env into web/.env.local, or set it in this environment."
     );
   }
+
+  const url = normaliseMongoUrl(raw);
 
   if (!cache.promise) {
     // bufferCommands: false makes a query fail fast if the connection dropped,
