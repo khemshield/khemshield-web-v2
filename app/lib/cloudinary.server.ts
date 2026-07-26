@@ -5,6 +5,7 @@ import { v2 as cloudinary } from "cloudinary";
 import {
   ALLOWED_PHOTO_FORMATS,
   TESTIMONIAL_PHOTO_FOLDER,
+  isTestimonialPhotoPublicId,
 } from "./cloudinary";
 
 /**
@@ -68,6 +69,57 @@ export const signTestimonialPhotoUpload = (): PhotoUploadSignature => {
     allowedFormats,
     uploadUrl: `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
   };
+};
+
+/**
+ * Permanently remove a testimonial photo from Cloudinary.
+ *
+ * Called when a review is deleted. Without this, "delete" would leave the
+ * person's face publicly reachable on the CDN by URL, which is exactly what an
+ * erasure request is asking you to stop.
+ *
+ * Guarded by the folder check so a tampered `photoPublicId` cannot be used to
+ * destroy an unrelated asset in the account. Returns a result rather than
+ * throwing: the database record is already gone by this point, so a Cloudinary
+ * hiccup should be reported, not allowed to undo the deletion.
+ */
+export const destroyTestimonialPhoto = async (
+  publicId: string
+): Promise<{ ok: boolean; error?: string }> => {
+  if (!isTestimonialPhotoPublicId(publicId)) {
+    return {
+      ok: false,
+      error: `Refusing to delete "${publicId}", it is not in the testimonials folder.`,
+    };
+  }
+
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  if (!cloudName || !apiKey || !apiSecret) {
+    return { ok: false, error: "Cloudinary is not configured." };
+  }
+
+  cloudinary.config({
+    cloud_name: cloudName,
+    api_key: apiKey,
+    api_secret: apiSecret,
+  });
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    // "not found" means it is already gone, which satisfies the intent.
+    if (result.result === "ok" || result.result === "not found") {
+      return { ok: true };
+    }
+    return { ok: false, error: `Cloudinary returned "${result.result}".` };
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "Unknown Cloudinary error.",
+    };
+  }
 };
 
 export const isCloudinaryConfigured = (): boolean =>

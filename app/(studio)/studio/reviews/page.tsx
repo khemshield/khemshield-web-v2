@@ -10,7 +10,7 @@ import {
 import ConfirmButton from "./ConfirmButton";
 import InviteForm from "./InviteForm";
 import ReviewCard from "./ReviewCard";
-import { revokeInviteAction } from "./actions";
+import { deleteInviteAction, revokeInviteAction } from "./actions";
 import { studioLogoutAction } from "../login/actions";
 
 // Moderation state must never be served stale.
@@ -199,9 +199,10 @@ const StudioReviewsPage = async () => {
                       <td className="px-4 py-3 text-xs text-gray-500">
                         {invite.note ?? ""}
                       </td>
-                      <td className="px-4 py-3 text-right">
-                        {invite.status === ReviewInviteStatus.Pending &&
-                          !invite.isExpired && (
+                      <td className="px-4 py-3">
+                        <div className="flex items-center justify-end gap-2">
+                          {invite.status === ReviewInviteStatus.Pending &&
+                          !invite.isExpired ? (
                             <ConfirmButton
                               action={revokeInviteAction}
                               fields={{ id: invite.id }}
@@ -229,7 +230,43 @@ const StudioReviewsPage = async () => {
                                 </>
                               }
                             />
-                          )}
+                          ) : null}
+
+                          <ConfirmButton
+                            action={deleteInviteAction}
+                            fields={{ id: invite.id }}
+                            label="Delete"
+                            tone="danger"
+                            title="Delete this invite link?"
+                            confirmLabel="Delete permanently"
+                            pendingLabel="Deleting..."
+                            description={
+                              <>
+                                <p>
+                                  Removes the record of the link sent to{" "}
+                                  <strong className="font-semibold text-secondary-normal">
+                                    {invite.clientName}
+                                  </strong>{" "}
+                                  from this list, and the link stops working.
+                                </p>
+                                {invite.status ===
+                                  ReviewInviteStatus.Submitted && (
+                                  <p>
+                                    The review they already submitted is{" "}
+                                    <strong className="font-semibold text-secondary-normal">
+                                      not
+                                    </strong>{" "}
+                                    affected. To remove that too, delete it from
+                                    the lists above.
+                                  </p>
+                                )}
+                                <p className="font-semibold text-red-700">
+                                  This cannot be undone.
+                                </p>
+                              </>
+                            }
+                          />
+                        </div>
                       </td>
                     </tr>
                   );

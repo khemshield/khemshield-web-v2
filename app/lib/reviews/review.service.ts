@@ -418,6 +418,42 @@ export const moveTestimonial = async (
   return true;
 };
 
+/**
+ * Permanently delete a testimonial.
+ *
+ * Returns the Cloudinary `publicId` that the caller must then destroy, rather
+ * than destroying it here. That keeps this module free of both `next/*` and the
+ * Cloudinary SDK so it stays portable to the backend, and it keeps the storage
+ * concern with the layer that owns credentials.
+ *
+ * Unlike Reject this is real erasure: the review text, name, email and IP hash
+ * all go. Use it for takedown requests and clearing test data, not for everyday
+ * moderation.
+ */
+export const deleteTestimonial = async (
+  id: string
+): Promise<{ deleted: boolean; photoPublicId?: string }> => {
+  const doc = await Testimonial.findByIdAndDelete(id).lean<{
+    author?: { photoPublicId?: string };
+  } | null>();
+
+  if (!doc) return { deleted: false };
+  return { deleted: true, photoPublicId: doc.author?.photoPublicId };
+};
+
+/**
+ * Permanently delete an invite.
+ *
+ * Any status, including submitted ones that revoke cannot touch. Deliberately
+ * does not touch the testimonial it produced: the invite is only the delivery
+ * mechanism, so clearing out spent links can never pull a published review off
+ * the site. The review's `inviteToken` is left dangling, which is harmless.
+ */
+export const deleteInvite = async (id: string): Promise<boolean> => {
+  const res = await ReviewInvite.findByIdAndDelete(id);
+  return res !== null;
+};
+
 export const countTestimonialsByStatus = async (): Promise<
   Record<TestimonialStatus, number>
 > => {

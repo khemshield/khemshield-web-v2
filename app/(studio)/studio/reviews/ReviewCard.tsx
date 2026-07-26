@@ -10,7 +10,11 @@ import {
 } from "@/app/lib/reviews/review.service";
 
 import ConfirmButton from "./ConfirmButton";
-import { moveTestimonialAction, setStatusAction } from "./actions";
+import {
+  deleteTestimonialAction,
+  moveTestimonialAction,
+  setStatusAction,
+} from "./actions";
 
 const formatDate = (iso?: string): string =>
   iso
@@ -263,6 +267,43 @@ const ReviewCard = ({ review, position, total }: Readonly<Props>) => {
             }
           />
         )}
+
+        <ConfirmButton
+          action={deleteTestimonialAction}
+          fields={{ id: review.id }}
+          label="Delete"
+          tone="danger"
+          title="Delete this review permanently?"
+          confirmLabel="Delete permanently"
+          pendingLabel="Deleting..."
+          description={
+            <>
+              <p>
+                Everything stored for <Who review={review} /> is erased: the
+                review text, their name, role
+                {review.email ? ", email address" : ""} and the record of their
+                consent.
+              </p>
+              {review.author.photoPublicId && (
+                <p>Their photo is also deleted from our image host.</p>
+              )}
+              {review.status === TestimonialStatus.Published && (
+                <p>It disappears from the homepage immediately.</p>
+              )}
+              <p className="font-semibold text-red-700">
+                This cannot be undone.
+              </p>
+              <p>
+                If you only want to take it off the site, use{" "}
+                {review.status === TestimonialStatus.Published
+                  ? "Unpublish or Reject"
+                  : "Reject"}{" "}
+                instead. Deleting is for when someone asks to be removed
+                entirely.
+              </p>
+            </>
+          }
+        />
       </div>
     </article>
   );

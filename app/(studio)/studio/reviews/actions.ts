@@ -14,11 +14,14 @@ import {
 import {
   DEFAULT_INVITE_DAYS,
   createInvite,
+  deleteInvite,
+  deleteTestimonial,
   moveTestimonial,
   revokeInvite,
   setTestimonialStatus,
   TestimonialStatus,
 } from "@/app/lib/reviews/review.service";
+import { destroyTestimonialPhoto } from "@/app/lib/cloudinary.server";
 
 export type EmailOutcome =
   /** No address was given, so nothing was sent. */
@@ -192,6 +195,66 @@ export const moveTestimonialAction = async (
     revalidatePath("/studio/reviews");
   } catch (err) {
     console.error("[studio] reorder failed:", err);
+  }
+};
+
+const idOnlySchema = Joi.object({
+  id: Joi.string().hex().length(24).required(),
+});
+
+/**
+ * Permanently delete a testimonial and its photo.
+ *
+ * The database record goes first, then the Cloudinary asset. If the asset
+ * removal fails the record is still gone, so the failure is logged loudly rather
+ * than retried: an orphaned CDN file is a cleanup problem, whereas leaving the
+ * review on the site after a takedown request is a real one.
+ */
+export const deleteTestimonialAction = async (
+  formData: FormData
+): Promise<void> => {
+  const { value, error } = idOnlySchema.validate({ id: formData.get("id") });
+
+  if (error) {
+    console.error("[studio] rejected testimonial delete:", error.message);
+    return;
+  }
+
+  try {
+    await connectDB();
+    const { deleted, photoPublicId } = await deleteTestimonial(value.id);
+
+    if (deleted && photoPublicId) {
+      const result = await destroyTestimonialPhoto(photoPublicId);
+      if (!result.ok) {
+        console.error(
+          `[studio] testimonial ${value.id} deleted but its Cloudinary photo ${photoPublicId} was not removed: ${result.error}`
+        );
+      }
+    }
+
+    revalidatePath("/");
+    revalidatePath("/studio/reviews");
+  } catch (err) {
+    console.error("[studio] testimonial delete failed:", err);
+  }
+};
+
+/** Permanently delete an invite. Leaves any review it produced untouched. */
+export const deleteInviteAction = async (formData: FormData): Promise<void> => {
+  const { value, error } = idOnlySchema.validate({ id: formData.get("id") });
+
+  if (error) {
+    console.error("[studio] rejected invite delete:", error.message);
+    return;
+  }
+
+  try {
+    await connectDB();
+    await deleteInvite(value.id);
+    revalidatePath("/studio/reviews");
+  } catch (err) {
+    console.error("[studio] invite delete failed:", err);
   }
 };
 
