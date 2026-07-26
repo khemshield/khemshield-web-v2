@@ -54,16 +54,77 @@ const inviteLabel = (invite: {
   return { text: "waiting", className: "bg-blue-100 text-blue-700" };
 };
 
-const StudioReviewsPage = async () => {
-  await connectDB();
+/**
+ * Shown instead of crashing when the database cannot be reached.
+ *
+ * A studio behind a passphrase is exactly where an operator needs to see *why*
+ * something is broken, and in production an unhandled server-component throw is
+ * an opaque "an error occurred" with the detail stripped out. The reason is kept
+ * short and deliberately does not echo connection strings or secret values.
+ */
+/**
+ * Strip credentials out of a driver error before it reaches the page. Mongo
+ * errors sometimes embed the connection string, and this page is only passphrase
+ * protected, not a place to render a database password.
+ */
+const redactCredentials = (message: string): string =>
+  message.replace(/(mongodb(?:\+srv)?:\/\/)[^@\s]*@/gi, "$1<redacted>@");
 
-  const [counts, pending, published, rejected, invites] = await Promise.all([
-    countTestimonialsByStatus(),
-    listTestimonialsByStatus(TestimonialStatus.Pending),
-    listTestimonialsByStatus(TestimonialStatus.Published),
-    listTestimonialsByStatus(TestimonialStatus.Rejected),
-    listInvites(),
-  ]);
+const ConnectionProblem = ({ reason }: { reason: string }) => (
+  <div className="rounded-xl border border-red-200 bg-red-50 p-6">
+    <h1 className="text-lg font-semibold text-red-800">
+      Cannot reach the database
+    </h1>
+    <p className="mt-2 text-sm text-red-700">{reason}</p>
+    <p className="mt-4 text-sm text-red-700">Check, in this order:</p>
+    <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-red-700">
+      <li>
+        <code>MONGODB_URL</code> is set in this environment, and its database
+        name is <code>khemshield_db</code> in production (not{" "}
+        <code>khemshield_db_dev</code>).
+      </li>
+      <li>
+        MongoDB Atlas Network Access allows this host. Serverless IPs are
+        dynamic, so an allowlist limited to your own IP will block it.
+      </li>
+      <li>
+        The database user in the connection string still has read and write
+        access.
+      </li>
+    </ol>
+  </div>
+);
+
+const StudioReviewsPage = async () => {
+  let data;
+
+  try {
+    await connectDB();
+
+    const [counts, pending, published, rejected, invites] = await Promise.all([
+      countTestimonialsByStatus(),
+      listTestimonialsByStatus(TestimonialStatus.Pending),
+      listTestimonialsByStatus(TestimonialStatus.Published),
+      listTestimonialsByStatus(TestimonialStatus.Rejected),
+      listInvites(),
+    ]);
+
+    data = { counts, pending, published, rejected, invites };
+  } catch (err) {
+    // Logged in full for the platform logs, summarised for the page.
+    console.error("[studio] could not load reviews:", err);
+    return (
+      <ConnectionProblem
+        reason={
+          err instanceof Error
+            ? redactCredentials(err.message)
+            : "Unknown error."
+        }
+      />
+    );
+  }
+
+  const { counts, pending, published, rejected, invites } = data;
 
   return (
     <div className="space-y-10">

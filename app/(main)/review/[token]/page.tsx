@@ -60,9 +60,36 @@ const Panel = ({ children }: Readonly<{ children: ReactNode }>) => (
 );
 
 const ReviewPage = async ({ params, searchParams }: Props) => {
-  await connectDB();
+  let state: InviteState;
+  let invite: Awaited<ReturnType<typeof lookupInvite>>["invite"];
 
-  const { state, invite } = await lookupInvite(params.token);
+  try {
+    await connectDB();
+    ({ state, invite } = await lookupInvite(params.token));
+  } catch (err) {
+    // A client holding a valid link must not be shown an opaque crash. Tell them
+    // it is our problem and that their link still works.
+    console.error("[reviews] could not resolve the invite:", err);
+    return (
+      <Wrapper>
+        <Panel>
+          <InfoCircle
+            variant="Bold"
+            size={48}
+            className="text-secondary-normal"
+          />
+          <BaseSpacing />
+          <Heading variant="h2">We cannot load this right now</Heading>
+          <BaseSpacing />
+          <Text>
+            Something is wrong on our side, not with your link. Please try again
+            in a few minutes, and it will still work.
+          </Text>
+        </Panel>
+      </Wrapper>
+    );
+  }
+
   const justSubmitted = searchParams.submitted === "1";
 
   // The submit action redirects back here, by which point the invite is marked
